@@ -1,0 +1,8 @@
+a svg g {
+    stroke: #fff;
+    /* Default color */
+}
+
+a.active-link svg g {
+    stroke: #a6db38;
+}
