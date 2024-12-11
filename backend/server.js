@@ -1,75 +1,67 @@
-// Import the express module
 const express = require('express');
+const mongoose = require('mongoose');
+const bodyParser = require('body-parser');
+const Movie = require('./models/movie'); // Mongoose model
+const MovieResponse = require('./utils/movieResponse'); // Response class
 
-// Create an instance of the Express app
 const app = express();
+const port = 3000;
 
 // Middleware to parse JSON bodies
-app.use(express.json());
+app.use(bodyParser.json());
 
-// Define a sample in-memory data store (array of users)
-const users = [
-  { id: 1, name: 'John Doe', email: 'john.doe@example.com' }
-];
+// Connect to MongoDB
+mongoose.connect('mongodb://localhost:27017/moviemate')
+    .then(() => console.log('Connected to MongoDB'))
+    .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-// GET /users - Retrieve the list of users
-app.get('/users', (req, res) => {
-  res.json(users); // Respond with the users array as JSON
+// Route to create a new movie
+app.post('/movies', async (req, res) => {
+    try {
+        const movieData = req.body;
+        const newMovie = new Movie(movieData);
+        await newMovie.save();
+
+        // Use the MovieResponse class to format the response
+        const response = new MovieResponse(newMovie);
+        res.status(201).json(response.toJSON()); // Send the formatted response
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
 });
 
-// GET /users/:id - Retrieve a specific user by ID
-app.get('/users/:id', (req, res) => {
-  const userId = parseInt(req.params.id, 10);
-  const user = users.find(u => u.id === userId);
-
-  if (user) {
-    res.json(user); // If found, return the user as JSON
-  } else {
-    res.status(404).json({ message: 'User not found' }); // Return 404 if not found
-  }
+// Route to get all movies
+app.get('/movies', async (req, res) => {
+    try {
+        const movies = await Movie.find();
+        
+        // Format all movie documents using the MovieResponse class
+        const formattedMovies = movies.map(movie => new MovieResponse(movie).toJSON());
+        
+        res.status(200).json(formattedMovies);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
-// POST /users - Create a new user
-app.post('/users', (req, res) => {
-  const newUser = req.body; // Extract the user data from the request body
-  newUser.id = users.length + 1; // Generate a new ID
-  users.push(newUser); // Add the new user to the array
+// Route to get a movie by ID
+app.get('/movies/:id', async (req, res) => {
+    try {
+        const movie = await Movie.findById(req.params.id);
+        
+        if (!movie) {
+            return res.status(404).json({ message: 'Movie not found' });
+        }
 
-  res.status(201).json(newUser); // Respond with the created user and 201 status
+        // Format the single movie document
+        const response = new MovieResponse(movie);
+        res.status(200).json(response.toJSON());
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 });
 
-// PUT /users/:id - Update an existing user by ID
-app.put('/users/:id', (req, res) => {
-  const userId = parseInt(req.params.id, 10);
-  const updatedUser = req.body;
-
-  let user = users.find(u => u.id === userId);
-
-  if (user) {
-    user.name = updatedUser.name || user.name;
-    user.email = updatedUser.email || user.email;
-
-    res.json(user); // Return the updated user as JSON
-  } else {
-    res.status(404).json({ message: 'User not found' }); // Return 404 if user not found
-  }
-});
-
-// DELETE /users/:id - Delete a user by ID
-app.delete('/users/:id', (req, res) => {
-  const userId = parseInt(req.params.id, 10);
-
-  const index = users.findIndex(u => u.id === userId);
-
-  if (index !== -1) {
-    users.splice(index, 1); // Remove the user from the array
-    res.status(204).end(); // Return 204 (No Content) for successful deletion
-  } else {
-    res.status(404).json({ message: 'User not found' }); // Return 404 if user not found
-  }
-});
-
-// Start the server on port 3000
-app.listen(3000, () => {
-  console.log('Server is running on http://localhost:3000');
+// Start the server
+app.listen(port, () => {
+    console.log(`Server running on http://localhost:${port}`);
 });
