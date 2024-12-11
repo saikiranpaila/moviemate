@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Movie = require('./models/movie'); // Mongoose model
 const MovieResponse = require('./utils/MovieResponse'); // Response class
+const { API_VERSION, API_PATH, MONGO_URI } = require('./config/config');
+const Paged = require('./utils/Paged');
 
 const app = express();
 const port = 3000;
@@ -11,27 +13,31 @@ const port = 3000;
 app.use(bodyParser.json());
 
 // Connect to MongoDB
-mongoose.connect('mongodb://localhost:27017/moviemate')
+mongoose.connect(MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-app.post('/movies', async (req, res) => {
+app.post(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
     try {
         const movieData = req.body;
         const newMovie = new Movie(movieData);
         await newMovie.save();
-        res.status(201).json(newMovie); // Send the formatted response
+        res.status(201).json(newMovie);
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
-app.get('/movies', async (req, res) => {
+app.get(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
     try {
-        const movies = await Movie.find();
+        const page = req.query.page || 1;
+        const perPage = req.query.perPage || 10;
+        const skip = (page - 1) * perPage;
+        const [total, movies] = await Promise.all([Movie.countDocuments(), Movie.find().skip(skip).limit(perPage)]);
+        const formattedMovies = movies.map(movie => new MovieResponse(movie).toObject());
         // To Response Object
-        const formattedMovies = movies.map(movie => new MovieResponse(movie).toJSON());
-        res.status(200).json(formattedMovies);
+        const paged = new Paged(page, formattedMovies, perPage, total)
+        res.status(200).json(paged.toObject());
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
@@ -41,7 +47,7 @@ app.get('/movies', async (req, res) => {
 app.get('/movies/:id', async (req, res) => {
     try {
         const movie = await Movie.findById(req.params.id);
-        
+
         if (!movie) {
             return res.status(404).json({ message: 'Movie not found' });
         }

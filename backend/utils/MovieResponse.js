@@ -17,7 +17,7 @@ class MovieResponse {
     }
 
     // Format the response to the desired structure
-    toJSON() {
+    toObject() {
         return {
             id: this.id,
             title: this.title,
