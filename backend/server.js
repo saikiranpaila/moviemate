@@ -15,29 +15,22 @@ mongoose.connect('mongodb://localhost:27017/moviemate')
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-// Route to create a new movie
 app.post('/movies', async (req, res) => {
     try {
         const movieData = req.body;
         const newMovie = new Movie(movieData);
         await newMovie.save();
-
-        // Use the MovieResponse class to format the response
-        const response = new MovieResponse(newMovie);
-        res.status(201).json(response.toJSON()); // Send the formatted response
+        res.status(201).json(newMovie); // Send the formatted response
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
 });
 
-// Route to get all movies
 app.get('/movies', async (req, res) => {
     try {
         const movies = await Movie.find();
-        
-        // Format all movie documents using the MovieResponse class
+        // To Response Object
         const formattedMovies = movies.map(movie => new MovieResponse(movie).toJSON());
-        
         res.status(200).json(formattedMovies);
     } catch (error) {
         res.status(500).json({ message: error.message });
