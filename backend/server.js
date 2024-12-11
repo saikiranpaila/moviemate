@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const Movie = require('./models/movie'); // Mongoose model
-const MovieResponse = require('./utils/movieResponse'); // Response class
+const MovieResponse = require('./utils/MovieResponse'); // Response class
 
 const app = express();
 const port = 3000;
