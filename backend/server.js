@@ -1,8 +1,8 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const Movie = require('./models/movie'); // Mongoose model
-const MovieResponse = require('./utils/MovieResponse'); // Response class
+const Movie = require('./models/movie');
+const MovieResponse = require('./utils/MovieResponse'); 
 const { API_VERSION, API_PATH, MONGO_URI } = require('./config/config');
 const Paged = require('./utils/Paged');
 
