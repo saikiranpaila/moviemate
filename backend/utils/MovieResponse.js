@@ -9,6 +9,10 @@ class MovieResponse {
         this.release_date = movieData.release_date;
         this.vote_average = movieData.vote_average;
         this.vote_count = movieData.vote_count;
+        this.trailer = movieData.trailer,
+        this.movie = movieData.movie,
+        this.processing = movieData.processing,
+        this.status = movieData.status
     }
 
     // Example of method that can add additional logic or formatting
@@ -27,7 +31,11 @@ class MovieResponse {
             genre_ids: this.genre_ids,
             release_date: this.getFormattedReleaseDate(),
             vote_average: this.vote_average,
-            vote_count: this.vote_count
+            vote_count: this.vote_count,
+            trailer: this.trailer,
+            movie: this.movie,
+            processing: this.processing,
+            status: this.status
         };
     }
 }

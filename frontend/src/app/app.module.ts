@@ -6,6 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { NgOptimizedImage } from '@angular/common'
+
 
 // Pipes
 import { RuntimePipe } from './components/global/pipe/runtime.pipe';
@@ -45,6 +47,7 @@ import { LanguageNamePipe } from './components/global/pipe/language-name.pipe';
 import { EpisodesComponent } from './components/global/episodes/episodes.component';
 import { ModalComponent } from './components/global/modal/modal.component';
 import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
+
 
 @NgModule({
   declarations: [
@@ -92,6 +95,7 @@ import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
     HttpClientModule,
     CommonModule,
     BrowserAnimationsModule,
+    NgOptimizedImage
   ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],

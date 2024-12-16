@@ -1,7 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
 const bodyParser = require('body-parser');
-const Movie = require('./models/movie');
+const Movie = require('./models/Movie');
 const MovieResponse = require('./utils/MovieResponse'); 
 const { API_VERSION, API_PATH, MONGO_URI } = require('./config/config');
 const Paged = require('./utils/Paged');
@@ -20,6 +22,9 @@ mongoose.connect(MONGO_URI)
 app.post(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
     try {
         const movieData = req.body;
+        const uuid = uuidv4();
+        const md5Hash = crypto.createHash('md5').update(uuid).digest('hex');
+        movieData.id = md5Hash
         const newMovie = new Movie(movieData);
         await newMovie.save();
         res.status(201).json(newMovie);
@@ -44,17 +49,30 @@ app.get(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
 });
 
 // Route to get a movie by ID
-app.get('/movies/:id', async (req, res) => {
+app.post(`/${API_VERSION}/${API_PATH}/movies/:id`, async (req, res) => {
     try {
-        const movie = await Movie.findById(req.params.id);
+        // Extract the fields from the request body
+        const updateData = req.body;
 
-        if (!movie) {
+        // Ensure at least one field is provided in the body
+        if (Object.keys(updateData).length === 0) {
+            return res.status(400).json({ message: 'At least one field must be provided to update' });
+        }
+
+        // Find the movie by custom 'id' and update only the fields provided in the body
+        const updatedMovie = await Movie.findOneAndUpdate(
+            { id: req.params.id },  // Use custom 'id' to find the movie
+            updateData,              // Use the entire body as the update data
+            { new: true }            // Return the updated document
+        );
+
+        if (!updatedMovie) {
             return res.status(404).json({ message: 'Movie not found' });
         }
 
-        // Format the single movie document
-        const response = new MovieResponse(movie);
-        res.status(200).json(response.toJSON());
+        // Format the updated movie document
+        const response = new MovieResponse(updatedMovie);
+        res.status(200).json(response.toObject());
     } catch (error) {
         res.status(500).json({ message: error.message });
     }
