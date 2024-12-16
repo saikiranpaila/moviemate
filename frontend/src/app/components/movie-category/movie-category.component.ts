@@ -27,7 +27,7 @@ export class MovieCategoryComponent implements OnInit {
   ngOnInit() {
 
     this.route.url.subscribe(url => {
-      this.category = url[2].path;
+      this.category = 'now_playing';
       this.page = 1;
       this.loadCategoryMovies(this.category);
     });
