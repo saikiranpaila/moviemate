@@ -26,7 +26,7 @@ import { SortByReleaseDatePipe } from './components/global/pipe/sortbydate.pipe'
 // Components
 import { NavbarComponent } from './components/global/navbar/navbar.component';
 import { SliderComponent } from './components/global/slider/slider.component';
-import { MoviesComponent } from './components/movies/movies.component';
+// import { MoviesComponent } from './components/movies/movies.component';
 // import { TvComponent } from './components/tv/tv.component';
 import { HomeComponent } from './components/home/home.component';
 import { SearchComponent } from './components/global/search/search.component';
@@ -36,15 +36,15 @@ import { MoviesInfoComponent } from './components/movies-info/movies-info.compon
 import { HeroComponent } from './components/global/hero/hero.component';
 import { MediaComponent } from './components/global/media/media.component';
 import { VideosComponent } from './components/global/videos/videos.component';
-import { ImagesComponent } from './components/global/images/images.component';
-import { PersonComponent } from './components/person/person.component';
+// import { ImagesComponent } from './components/global/images/images.component';
+// import { PersonComponent } from './components/person/person.component';
 import { ListingComponent } from './components/global/listing/listing.component';
 import { SortByYearPipe } from './components/global/pipe/sort-by-year.pipe';
 import { MovieCategoryComponent } from './components/movie-category/movie-category.component';
 // import { TvCategoryComponent } from './components/tv-category/tv-category.component';
-import { GenreComponent } from './components/genre/genre.component';
+// import { GenreComponent } from './components/genre/genre.component';
 import { LanguageNamePipe } from './components/global/pipe/language-name.pipe';
-import { EpisodesComponent } from './components/global/episodes/episodes.component';
+// import { EpisodesComponent } from './components/global/episodes/episodes.component';
 import { ModalComponent } from './components/global/modal/modal.component';
 import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
 
@@ -67,7 +67,7 @@ import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
     SortByYearPipe,
     NavbarComponent,
     SliderComponent,
-    MoviesComponent,
+    // MoviesComponent,
     // TvComponent,
     HomeComponent,
     SearchComponent,
@@ -77,14 +77,14 @@ import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
     HeroComponent,
     MediaComponent,
     VideosComponent,
-    ImagesComponent,
-    PersonComponent,
+    // ImagesComponent,
+    // PersonComponent,
     ListingComponent,
     MovieCategoryComponent,
     // TvCategoryComponent,
-    GenreComponent,
+    // GenreComponent,
     LanguageNamePipe,
-    EpisodesComponent,
+    // EpisodesComponent,
     ModalComponent,
     SafeUrlPipe,
   ],

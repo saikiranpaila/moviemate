@@ -40,7 +40,7 @@
             <li *ngIf="data?.genres.length">
                 <div class="label">Genre</div>
                 <div class="comma_" *ngFor="let genre of data?.genres">
-                    <a [routerLink]="['/genres', genre?.id, type]">{{ genre?.name }}</a>
+                    <a>{{ genre?.name }}</a>
                 </div>
             </li>
             <li *ngIf="data?.status">

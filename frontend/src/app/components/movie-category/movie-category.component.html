@@ -1,16 +1,4 @@
 <div class="spacing">
-    <app-listing *ngIf="category === 'popular'" [items]="movieCategories['popularMovies']" [title]="'Popular Movies'"
-        [exploreLink]="'/movie'">
-    </app-listing>
-
-    <app-listing *ngIf="category === 'top_rated'" [items]="movieCategories['topRatedMovies']"
-        [title]="'Top Rated Movies'" [exploreLink]="'/movie'">
-    </app-listing>
-
-    <app-listing *ngIf="category === 'upcoming'" [items]="movieCategories['upcomingMovies']" [title]="'Upcoming Movies'"
-        [exploreLink]="'/movie'">
-    </app-listing>
-
     <app-listing *ngIf="category === 'now_playing'" [items]="movieCategories['nowPlayingMovies']"
         [title]="'Now Playing Movies'" [exploreLink]="'/movie'">
     </app-listing>
