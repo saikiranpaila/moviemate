@@ -1,16 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
 const { v4: uuidv4 } = require('uuid');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const Movie = require('./models/Movie');
-const MovieResponse = require('./utils/MovieResponse'); 
+const MovieResponse = require('./utils/MovieResponse');
 const { API_VERSION, API_PATH, MONGO_URI } = require('./config/config');
 const Paged = require('./utils/Paged');
 
 const app = express();
 const port = 3000;
 
+app.use(cors());
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
 
@@ -47,6 +49,26 @@ app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 });
+
+app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
+    try {
+        const { id } = req.params; // Get the custom ID from the URL parameter
+
+        // Find the movie using the customId field (make sure `customId` is indexed in your schema)
+        const movie = await Movie.findOne({ id: id });
+
+        if (!movie) {
+            return res.status(404).json({ message: "Movie not found" }); // Return 404 if movie is not found
+        }
+
+        const formattedMovie = new MovieResponse(movie).toObject(); // Format the movie using MovieResponse class
+
+        res.status(200).json(formattedMovie); // Return the formatted movie
+    } catch (error) {
+        res.status(500).json({ message: error.message }); // Handle errors
+    }
+});
+
 
 // Route to get a movie by ID
 app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {

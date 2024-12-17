@@ -12,7 +12,7 @@ export class ApiService {
   private apiKey = 'dd4d819639705d332d531217b4f7c6b6';
   private language = 'en-US';
 
-  private apiurl = "http://localhost:3000/api/v1";
+  private apiurl = "http://192.168.1.3:3000/api/v1";
 
   constructor(private http: HttpClient) { }
 

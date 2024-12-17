@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
   }
 
   updateMoviesData() {
-    this.apiService.getMovies(1, 20).subscribe({
+    this.apiService.getMovies(1, 10).subscribe({
       next: (v: MoviesResponse) => this.movies_data = v,
       error: (e: any) => console.error(e),
       complete: () => console.info('complete')

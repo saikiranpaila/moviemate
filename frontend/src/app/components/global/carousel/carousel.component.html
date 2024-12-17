@@ -16,7 +16,7 @@
     </button>
     <div class="carousel__items" #carouselContainer>
       <div *ngFor="let item of items" class="card">
-        <a [routerLink]="[item.id]" class="card__link">
+        <a [routerLink]="'/movie/'+[item.id]" class="card__link">
           <div class="card__img">
             <img *ngIf="item.poster_path" src="{{item.poster_path}}" [alt]="item.title" class="lazyload">
             <span *ngIf="!item.poster_path">
