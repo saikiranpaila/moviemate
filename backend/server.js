@@ -19,7 +19,7 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-app.post(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
     try {
         const movieData = req.body;
         const uuid = uuidv4();
@@ -33,7 +33,7 @@ app.post(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
     }
 });
 
-app.get(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
+app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
     try {
         const page = req.query.page || 1;
         const perPage = req.query.perPage || 10;
@@ -49,7 +49,7 @@ app.get(`/${API_VERSION}/${API_PATH}/movies`, async (req, res) => {
 });
 
 // Route to get a movie by ID
-app.post(`/${API_VERSION}/${API_PATH}/movies/:id`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
     try {
         // Extract the fields from the request body
         const updateData = req.body;

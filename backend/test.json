@@ -1,93 +1,117 @@
-{
-    "adult": false,
-    "backdrop_path": "/tkRDTu9hyWgaBSSzfkYDCZYd1kV.jpg",
-    "belongs_to_collection": null,
-    "budget": 20000000,
-    "genres": [
-        {
-            "id": 53,
-            "name": "Thriller"
-        },
-        {
-            "id": 18,
-            "name": "Drama"
-        }
-    ],
-    "homepage": "https://www.focusfeatures.com/conclave",
-    "id": 974576,
-    "imdb_id": "tt20215234",
-    "origin_country": [
-        "US"
-    ],
-    "original_language": "en",
-    "original_title": "Conclave",
-    "overview": "After the unexpected death of the Pope, Cardinal Lawrence is tasked with managing the covert and ancient ritual of electing a new one. Sequestered in the Vatican with the Catholic Church’s most powerful leaders until the process is complete, Lawrence finds himself at the center of a conspiracy that could lead to its downfall.",
-    "popularity": 185.635,
-    "poster_path": "/m5x8D0bZ3eKqIVWZ5y7TnZ2oTVg.jpg",
-    "production_companies": [
-        {
-            "id": 7493,
-            "logo_path": "/fHitYiGUCkRafgt6VPYQlXWLkdp.png",
-            "name": "FilmNation Entertainment",
-            "origin_country": "US"
-        },
-        {
-            "id": 9350,
-            "logo_path": "/xz60JVoUHpOeg1cJbxzMJiwbuL7.png",
-            "name": "Indian Paintbrush",
-            "origin_country": "US"
-        },
-        {
-            "id": 112783,
-            "logo_path": "/g95BBJvKyOawT3sGVXTdDG72Qad.png",
-            "name": "House Productions",
-            "origin_country": "GB"
-        }
-    ],
-    "production_countries": [
-        {
-            "iso_3166_1": "GB",
-            "name": "United Kingdom"
-        },
-        {
-            "iso_3166_1": "US",
-            "name": "United States of America"
-        }
-    ],
-    "release_date": "2024-10-25",
-    "revenue": 38843309,
-    "runtime": 120,
-    "spoken_languages": [
-        {
-            "english_name": "English",
-            "iso_639_1": "en",
-            "name": "English"
-        },
-        {
-            "english_name": "Italian",
-            "iso_639_1": "it",
-            "name": "Italiano"
-        },
-        {
-            "english_name": "Latin",
-            "iso_639_1": "la",
-            "name": "Latin"
-        },
-        {
-            "english_name": "Spanish",
-            "iso_639_1": "es",
-            "name": "Español"
-        },
-        {
-            "english_name": "Vietnamese",
-            "iso_639_1": "vi",
-            "name": "Tiếng Việt"
-        }
-    ],
-    "status": "Released",
-    "tagline": "What happens behind these walls will change everything.",
-    "title": "Conclave",
-    "video": false,
-    "vote_average": 7.1,
-    "vote_count": 334
-}
+[
+    {
+      "id": "a625c37e61c24f2c868ccb1674168bb4",
+      "title": "Deadpool: The Last Dance",
+      "overview": "Eddie and Venom are on the run. Hunted by both of their worlds and with the net closing in, the duo are forced into a devastating decision that will bring the curtains down on Venom and Eddie's last dance.",
+      "rating": 8.2,
+      "poster_path": "https://image.tmdb.org/t/p/original/3E53WEZJqP6aM84D8CckXx4pIHw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/wsPO5Jny82b0pksjSvjUHEYHDkz.jpg",
+      "lang": "en",
+      "runtime": 120,
+      "original_language": "en",
+      "genre": ["Action", "Sci-Fi", "Adventure"],
+      "release_date": "2024-10-22T00:00:00.000Z",
+      "vote_average": 7.8,
+      "vote_count": 2112,
+      "trailer": "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      "movie": "Deadpool 3",
+      "processing": false,
+      "status": "Released"
+    },
+    {
+      "id": "b823d42a9bb64fbd9e57edba4e9b3b42",
+      "title": "Guardians of the Galaxy Vol. 3",
+      "overview": "The Guardians are back to defend the galaxy once again, but this time against a powerful new foe who threatens the universe. Along the way, they'll face new allies and confront old foes.",
+      "rating": 8.5,
+      "poster_path": "https://image.tmdb.org/t/p/original/bVpTTg0NvaS905U2oXVr0awgCbM.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/trykoHM36QU194c6yZIjKWCVUKy.jpg",
+      "lang": "en",
+      "runtime": 149,
+      "original_language": "en",
+      "genre": ["Action", "Adventure", "Sci-Fi"],
+      "release_date": "2023-05-05T00:00:00.000Z",
+      "vote_average": 8.3,
+      "vote_count": 3582,
+      "trailer": "https://www.youtube.com/watch?v=1BzE6pgLq2M",
+      "movie": "Guardians of the Galaxy Vol. 3",
+      "processing": true,
+      "status": "Released"
+    },
+    {
+      "id": "e19c24ac1b6c497888b9776c8e344b97",
+      "title": "The Flash",
+      "overview": "Barry Allen uses his superpowers to travel back in time to prevent the murder of his mother, but his actions have unintended consequences that alter the fabric of reality itself.",
+      "rating": 7.1,
+      "poster_path": "https://image.tmdb.org/t/p/original/lJA2RCMfsWoskqlQhXPSLFQGXEJ.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/goqjRP9UBEf6ztinVt46FdoUwDC.jpg",
+      "lang": "en",
+      "runtime": 144,
+      "original_language": "en",
+      "genre": ["Action", "Adventure", "Sci-Fi"],
+      "release_date": "2023-06-16T00:00:00.000Z",
+      "vote_average": 6.9,
+      "vote_count": 2041,
+      "trailer": "https://www.youtube.com/watch?v=V2I7E8Zm6G8",
+      "movie": "The Flash",
+      "processing": false,
+      "status": "Released"
+    },
+    {
+      "id": "f98c412a705340869f8d14f42363b9b4",
+      "title": "Jurassic World: Dominion",
+      "overview": "The future of humanity is at stake as dinosaurs roam the Earth once again. Owen Grady and Claire Dearing join forces with a group of allies to prevent a global catastrophe.",
+      "rating": 6.4,
+      "poster_path": "https://image.tmdb.org/t/p/original/A0LZHXUzo5C60Oahvt7VxvwuzHw.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/dF6FjTZzRTENfB4R17HDN20jLT2.jpg",
+      "lang": "en",
+      "runtime": 146,
+      "original_language": "en",
+      "genre": ["Action", "Adventure", "Sci-Fi"],
+      "release_date": "2022-06-10T00:00:00.000Z",
+      "vote_average": 6.3,
+      "vote_count": 3456,
+      "trailer": "https://www.youtube.com/watch?v=R56oIK9J5yA",
+      "movie": "Jurassic World: Dominion",
+      "processing": true,
+      "status": "Released"
+    },
+    {
+      "id": "c4fcb274f05a4664b0cfd0286bdbb536",
+      "title": "Spider-Man: No Way Home",
+      "overview": "Peter Parker's life is turned upside down as he struggles with the fallout from his secret identity being exposed. With the help of strange allies, he must battle new enemies to save his world.",
+      "rating": 8.9,
+      "poster_path": "https://image.tmdb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/iQFcwSGbZXMkeyKrxbPnwnRo5fl.jpg",
+      "lang": "en",
+      "runtime": 148,
+      "original_language": "en",
+      "genre": ["Action", "Adventure", "Sci-Fi"],
+      "release_date": "2021-12-17T00:00:00.000Z",
+      "vote_average": 8.7,
+      "vote_count": 5123,
+      "trailer": "https://www.youtube.com/watch?v=Jk29M1w5a4g",
+      "movie": "Spider-Man: No Way Home",
+      "processing": false,
+      "status": "Released"
+    },
+    {
+      "id": "f32b9c7b50ba4673a9c6f395e5984e2d",
+      "title": "Avatar: The Way of Water",
+      "overview": "Jake Sully and Neytiri have formed a family, but the arrival of new threats forces them to venture beyond their home to protect those they love.",
+      "rating": 7.9,
+      "poster_path": "https://image.tmdb.org/t/p/original/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg",
+      "backdrop": "https://image.tmdb.org/t/p/original/8rpDcsfLJypbO6vREc0547VKqEv.jpg",
+      "lang": "en",
+      "runtime": 192,
+      "original_language": "en",
+      "genre": ["Action", "Adventure", "Sci-Fi"],
+      "release_date": "2022-12-16T00:00:00.000Z",
+      "vote_average": 7.8,
+      "vote_count": 4300,
+      "trailer": "https://www.youtube.com/watch?v=d9MyW72ELq0",
+      "movie": "Avatar: The Way of Water",
+      "processing": false,
+      "status": "Released"
+    }
+  ]
+  
