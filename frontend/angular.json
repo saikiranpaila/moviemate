@@ -39,7 +39,9 @@
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "vidstack/player/styles/default/theme.css",
+              "vidstack/player/styles/default/layouts/video.css"
             ],
             "scripts": []
           },

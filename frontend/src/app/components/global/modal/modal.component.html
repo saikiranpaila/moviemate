@@ -1,6 +1,11 @@
 <div *ngIf="isVisible" class="modal-backdrop" (click)="closeModal()"></div>
 <div *ngIf="isVisible" class="modal-content">
-    <iframe *ngIf="videoUrl" [src]="videoUrl | safeUrl" frameborder="0" allowfullscreen>
-    </iframe>
+    <media-player title="Sprite Fight" src="https://files.vidstack.io/sprite-fight/hls/stream.m3u8" crossorigin autoplay>
+        <media-provider>
+            <media-poster class="vds-poster" src="https://files.vidstack.io/sprite-fight/poster.webp"
+                alt="Girl walks into campfire with gnomes surrounding her friend ready for their next meal!"></media-poster>
+        </media-provider>
+        <media-video-layout thumbnails="https://files.vidstack.io/sprite-fight/thumbnails.vtt"></media-video-layout>
+    </media-player>
     <button (click)="closeModal()" class="close-button">X</button>
 </div>
