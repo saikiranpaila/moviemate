@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Movie } from '../../../models/Movies';
 
 @Component({
   selector: 'app-listing',
@@ -8,6 +9,6 @@ import { Component, Input } from '@angular/core';
 export class ListingComponent {
   @Input() title!: string;
   @Input() id!: number | string;
-  @Input() items: any[] = [];
+  @Input() items: Movie[] = [];
   @Input() name!: string;
 }

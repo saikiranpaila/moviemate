@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Movie } from '../../../models/Movies';
 
 @Component({
   selector: 'app-media',
@@ -6,7 +7,8 @@ import { Component, Input } from '@angular/core';
   styleUrl: './media.component.scss'
 })
 export class MediaComponent {
-  @Input() data: any;
-  @Input() externalData: any;
-  @Input() type: 'movie' | 'tv' | 'person' = 'movie';
+  @Input() data!: Movie;
+  print() {
+    console.log(this.data)
+  }
 }

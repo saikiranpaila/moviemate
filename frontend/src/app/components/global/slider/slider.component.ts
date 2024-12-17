@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { ModalComponent } from '../modal/modal.component';
 import { ApiService } from '../../../api/api.service';
+import { MoviesResponse } from '../../../models/Movies';
 
 @Component({
   selector: 'app-slider',
@@ -20,7 +21,7 @@ import { ApiService } from '../../../api/api.service';
   ]
 })
 export class SliderComponent implements OnInit, OnDestroy {
-  @Input() data: any[] = [];
+  @Input() data!: MoviesResponse;
   current = 0;
   private intervalId: any;
   @ViewChild(ModalComponent) modal!: ModalComponent;
@@ -33,7 +34,7 @@ export class SliderComponent implements OnInit, OnDestroy {
 
   sliderTimer() {
     this.intervalId = setInterval(() => {
-      this.current = (this.current + 1) % this.data.length;
+      this.current = (this.current + 1) % this.data.result.length;
     }, 5000);
   }
 

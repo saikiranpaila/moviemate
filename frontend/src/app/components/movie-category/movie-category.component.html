@@ -1,5 +1,5 @@
 <div class="spacing">
-    <app-listing *ngIf="category === 'now_playing'" [items]="movieCategories['nowPlayingMovies']"
+    <app-listing [items]="movies"
         [title]="'Now Playing Movies'" [exploreLink]="'/movie'">
     </app-listing>
 

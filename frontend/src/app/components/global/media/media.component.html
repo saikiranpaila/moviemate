@@ -1,58 +1,45 @@
+@if(data){
 <div class="left">
     <div class="poster">
         <!-- Poster for Movies or TV Shows -->
-        <img *ngIf="type === 'movie' && data?.poster_path" alt="{{data?.title || data?.name}}" class="lazyload"
-            [src]="'https://image.tmdb.org/t/p/w370_and_h556_bestv2/' + data?.poster_path" />
-
-        <!-- Person Image -->
-        <img *ngIf="type === 'person' && data?.profile_path" alt="{{data?.name}}" class="lazyload"
-            [src]="'https://image.tmdb.org/t/p/w370_and_h556_bestv2/' + data?.profile_path" />
-
-        <img *ngIf="type === 'tv' && data?.poster_path" alt="{{data?.name}}" class="lazyload"
-            [src]="'https://image.tmdb.org/t/p/w370_and_h556_bestv2/' + data?.poster_path" />
+        <img *ngIf="data?.poster_path" alt="{{ data.title }}" class="lazyload"
+            [src]="data.poster_path" />
     </div>
 </div>
 <div class="right">
     <div class="overview">
         <h2 class="title">Storyline</h2>
         <!-- Bio for Movies or TV Shows -->
-        <div *ngIf="data?.overview || data?.biography">{{data?.overview || data?.biography}}</div>
+        <div *ngIf="data?.overview">{{data.overview}}</div>
     </div>
     <div class="stats">
-        <ul class="nolist" *ngIf="type === 'movie'">
-            <li *ngIf="data?.release_date | date">
+        <ul class="nolist">
+            <li *ngIf="data?.release_date">
                 <div class="label">Released</div>
-                <div class="value">{{ data?.release_date | date }}</div>
+                <div class="value">{{ data.release_date }}</div>
             </li>
 
-            <li *ngIf="data?.runtime | time">
+            <li *ngIf="data.runtime">
                 <div class="label">Runtime</div>
-                <div class="value">{{ data?.runtime | time }}</div>
+                <div class="value">{{ data.runtime}}</div>
             </li>
-            <li *ngIf="data?.budget">
-                <div class="label">Budget</div>
-                <div class="value">${{ data?.budget | numberWithCommas }}</div>
-            </li>
-            <li *ngIf="data?.revenue">
-                <div class="label">Revenue</div>
-                <div class="value">${{ data?.revenue | numberWithCommas }}</div>
-            </li>
-            <li *ngIf="data?.genres.length">
+            <li *ngIf="data.genre?.length">
                 <div class="label">Genre</div>
-                <div class="comma_" *ngFor="let genre of data?.genres">
-                    <a>{{ genre?.name }}</a>
+                <div class="comma_" *ngFor="let gen of data?.genre">
+                    <a>{{ gen }}</a>
                 </div>
             </li>
             <li *ngIf="data?.status">
                 <div class="label">Status</div>
-                <div class="value">{{data?.status}}</div>
+                <div class="value">{{data.status}}</div>
             </li>
-            <li *ngIf="data?.spoken_languages?.length">
+            <li *ngIf="data?.lang?.length">
                 <div class="label">Language</div>
-                <div class="comma_" *ngFor="let language of data?.spoken_languages">
-                    <a>{{ language?.name }}</a>
+                <div class="comma_" *ngFor="let language of data?.lang">
+                    <a>{{ language }}</a>
                 </div>
             </li>
         </ul>
     </div>
 </div>
+}

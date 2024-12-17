@@ -1,3 +1,4 @@
+@if(movie_data) {
 <app-hero [data]="movie_data"></app-hero>
 
 <div class="nav">
@@ -10,6 +11,7 @@
 
 <div *ngIf="activeTab === 'overview'" id="overview">
     <div class="spacing">
-        <app-media [data]="movie_data" [type]="type" [externalData]="external_data" class="info"></app-media>
+        <app-media [data]="movie_data" class="info"></app-media>
     </div>
 </div>
+}

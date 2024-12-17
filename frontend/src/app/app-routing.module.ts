@@ -22,16 +22,8 @@ const routes: Routes = [
     component: MovieCategoryComponent,
   },
   {
-    path: 'tv',
-    component: MovieCategoryComponent
-  },
-  {
     path: 'movie/:id',
     component: MoviesInfoComponent
-  },
-  {
-    path: 'movie/category/:category',
-    component: MovieCategoryComponent
   },
   {
     path: 'search',

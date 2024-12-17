@@ -1,5 +1,6 @@
+@if(movies_data.result.length) {
 <app-slider [data]="movies_data"></app-slider>
-
-<app-carousel [title]="'Popular Movies'" [isExplore]="false" [exploreLink]="'/movie/category/now_playing'" 
-    [items]="moviesSlider" [canNavigateLeft]="true" [canNavigateRight]="true">
+<app-carousel [title]="'Latest Movies'" [isExplore]="false" [exploreLink]="'/movie'" [items]="movies_data.result"
+    [canNavigateLeft]="true" [canNavigateRight]="true">
 </app-carousel>
+}

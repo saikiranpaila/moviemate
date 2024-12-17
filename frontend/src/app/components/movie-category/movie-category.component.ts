@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../api/api.service';
+import { Movie, MoviesResponse } from '../../models/Movies';
 
 @Component({
   selector: 'app-movie-category',
@@ -9,83 +10,46 @@ import { ApiService } from '../../api/api.service';
 })
 export class MovieCategoryComponent implements OnInit {
 
-  category!: string;
   page: number = 1;
+  perPage: number = 20;
   isLoading: boolean = false;
-  movieCategories: { [key: string]: any[] } = {
-    popularMovies: [],
-    topRatedMovies: [],
-    upcomingMovies: [],
-    nowPlayingMovies: [],
-  };
+  movies: Movie[] = []
+  pageAvailable: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
     private apiService: ApiService,
-  ) {}
+  ) { }
 
   ngOnInit() {
-
-    this.route.url.subscribe(url => {
-      this.category = 'now_playing';
-      this.page = 1;
-      this.loadCategoryMovies(this.category);
-    });
+    this.updateMoviesList()
   }
 
-  loadCategoryMovies(category: string) {
-    this.fetchMovies(category, this.getCategoryProperty(category));
-  }
-
-  fetchMovies(category: string, property: string): void {
-    if (this.isLoading) return;
-    this.isLoading = true;
-
-    this.apiService.getCategory(category, this.page, 'movie').subscribe(
-      (response) => {
-        const results = response.results;
-        for (const item of results) {
-          const movie = {
-            link: `/movie/${item.id}`,
-            imgSrc: item.poster_path ? `https://image.tmdb.org/t/p/w370_and_h556_bestv2${item.poster_path}` : null,
-            title: item.title,
-            rating: item.vote_average * 10,
-            vote: item.vote_average,
-          };
-          this.movieCategories[property].push(movie);
+  updateMoviesList() {
+    this.isLoading=true;
+    this.apiService.getMovies(this.page, this.perPage).subscribe({
+      next: (res: MoviesResponse) => {
+        this.movies.push(...res.result)
+        this.page = parseInt(res.page) + 1
+        if (parseInt(res.page) >= res.totalPages) {
+          this.pageAvailable=false
+        } else {
+          this.pageAvailable=true
         }
-        this.isLoading = false;
-        this.page++;
       },
-      (error) => {
-        console.error(`Error fetching ${category} movies:`, error);
-        this.isLoading = false;
-      }
-    );
-  }
-
-  getCategoryProperty(category: string): string {
-    switch (category) {
-      case 'popular':
-        return 'popularMovies';
-      case 'top_rated':
-        return 'topRatedMovies';
-      case 'upcoming':
-        return 'upcomingMovies';
-      case 'now_playing':
-        return 'nowPlayingMovies';
-      default:
-        return '';
-    }
+      error: (err) => { console.log(err) }
+    })
+    this.isLoading=false;
   }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {
     const pos = (document.documentElement.scrollTop || document.body.scrollTop) + window.innerHeight;
     const max = document.documentElement.scrollHeight || document.body.scrollHeight;
-    
-    if (pos > max - 100) {
-      this.loadCategoryMovies(this.category);
+    if (this.pageAvailable) {
+      if (pos > max - 100) {
+        this.updateMoviesList();
+      }
     }
   }
 }

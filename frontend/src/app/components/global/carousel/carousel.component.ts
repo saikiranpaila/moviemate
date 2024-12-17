@@ -2,6 +2,7 @@ import { Component, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, Simp
 import { trigger, transition, animate, style } from '@angular/animations';
 import { Subscription } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
+import { Movie } from '../../../models/Movies';
 
 @Component({
   selector: 'app-carousel',
@@ -24,7 +25,7 @@ export class CarouselComponent implements AfterViewInit, OnChanges, OnDestroy {
   @Input() title!: string;
   @Input() id!: number | string;
   @Input() exploreLink!: string;
-  @Input() items: any[] = [];
+  @Input() items!: Movie[];
   @Input() canNavigateLeft = false;
   @Input() canNavigateRight = true; // Defaulting to true to enable navigation by default
   @Input() infoLink!: string;

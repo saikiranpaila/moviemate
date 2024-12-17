@@ -3,10 +3,10 @@
 </div>
 <div class="listing__items">
     <div *ngFor="let item of items" class="card">
-        <a [routerLink]="[item.link]" class="card__link">
+        <a [routerLink]="[item.id]" class="card__link">
             <div class="card__img lazyloaded">
-                <img *ngIf="item.imgSrc" [attr.src]="item.imgSrc" [alt]="item.title || item.name" class="lazyload">
-                <span *ngIf="!item.imgSrc">
+                <img *ngIf="item.poster_path" [attr.src]="item.poster_path" [alt]="item.title" class="lazyload">
+                <span *ngIf="!item.poster_path">
                     <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24"
                         fill-rule="evenodd" clip-rule="evenodd" fill="#999">
                         <path
@@ -20,7 +20,7 @@
                 <div class="card__stars">
                     <div [style.width.%]="item.rating"></div>
                 </div>
-                <div class="card__vote">{{ item.vote }}</div>
+                <div class="card__vote">{{ item.vote_count }}</div>
             </div>
         </a>
     </div>
