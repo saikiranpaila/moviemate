@@ -24,7 +24,8 @@ export class SliderComponent implements OnInit, OnDestroy {
   @Input() data!: MoviesResponse;
   current = 0;
   private intervalId: any;
-  @ViewChild(ModalComponent) modal!: ModalComponent;
+  @ViewChild('trailermodal') trailermodal!: ModalComponent;
+  @ViewChild('moviemodal') moviemodal!: ModalComponent;
 
   constructor(private apiService: ApiService){}
 
@@ -35,7 +36,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   sliderTimer() {
     this.intervalId = setInterval(() => {
       this.current = (this.current + 1) % this.data.result.length;
-    }, 5000);
+    }, 500000);
   }
 
   ngOnDestroy() {
@@ -45,6 +46,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   }
 
   openTrailer() {
-    this.modal.openModal("videoUrl");
+    this.trailermodal.openModal();
+  }
+  openMovie() {
+    this.moviemodal.openModal()
   }
 }  

@@ -11,26 +11,15 @@ import { Movie } from '../../../models/Movies';
 export class HeroComponent {
   @Input() data!: Movie;
 
-  @ViewChild(ModalComponent) modal!: ModalComponent;
+  @ViewChild('trailermodal') trailermodal!: ModalComponent;
+  @ViewChild('moviemodal') moviemodal!: ModalComponent;
 
   constructor(private apiService: ApiService){}
 
   openTrailer() {
-    // this.apiService.getYouTubeVideo(this.data.id, mediaType).subscribe(
-    //   (response: any) => {
-    //     console.log('API Response:', response);  // Log the response
-    //     const video = response.results.find((vid: any) => vid.site === 'YouTube' && ['Trailer', 'Teaser', 'Clip'].includes(vid.type));
-    //     if (video) {
-    //       const videoUrl = `https://www.youtube.com/embed/${video.key}?rel=0&autoplay=1&mute=1`;
-    //       this.modal.openModal(videoUrl);
-    //     } else {
-    //       console.error('No trailer or relevant video found for this media.');
-    //       alert('No trailer or video available for this media.');
-    //     }
-    //   },
-    //   error => {
-    //     console.error('Error fetching YouTube video:', error);
-    //   }
-    // );
+    this.trailermodal.openModal();
+  }
+  openMovie() {
+    this.moviemodal.openModal()
   }
 }

@@ -83,7 +83,11 @@
     @media (min-width: $breakpoint-small) {
       padding: 0 4rem 4rem;
     }
-  
+    
+    // @media (max-width: $breakpoint-medium) {
+    //   display: none;
+    // }
+
     @media (min-width: $breakpoint-medium) {
       position: absolute;
       top: 0;
@@ -194,8 +198,10 @@
     }
   }
   
-  .trailer {
+  .trailer, .movie {
     margin-top: 3rem;
+    margin: 1rem;
+    border-radius: 8px;
   
     @media (max-width: $breakpoint-medium - 1) {
       display: none;
@@ -204,6 +210,15 @@
     @media (min-width: 1650px) {
       font-size: 0.9vw;
     }
+  }
+
+  .trailer {
+    background-color: #1a1a1a;
+  }
+
+  .movie {
+    color: #292929;
+    background-color: #ffffff;
   }
   
 }

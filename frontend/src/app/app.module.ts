@@ -35,7 +35,7 @@ import { MoviesInfoComponent } from './components/movies-info/movies-info.compon
 // import { TvInfoComponent } from './components/tv-info/tv-info.component';
 import { HeroComponent } from './components/global/hero/hero.component';
 import { MediaComponent } from './components/global/media/media.component';
-import { VideosComponent } from './components/global/videos/videos.component';
+// import { VideosComponent } from './components/global/videos/videos.component';
 // import { ImagesComponent } from './components/global/images/images.component';
 // import { PersonComponent } from './components/person/person.component';
 import { ListingComponent } from './components/global/listing/listing.component';
@@ -76,7 +76,7 @@ import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
     // TvInfoComponent,
     HeroComponent,
     MediaComponent,
-    VideosComponent,
+    // VideosComponent,
     // ImagesComponent,
     // PersonComponent,
     ListingComponent,

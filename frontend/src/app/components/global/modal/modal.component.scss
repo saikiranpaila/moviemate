@@ -21,6 +21,8 @@ $fade-duration: 0.3s;
   position: fixed;
   top: 50%;
   left: 50%;
+  width: 75%;
+  aspect-ratio: 16 / 9;
   background: $modal-bg-color;
   padding: 1px;
   z-index: 1000;
