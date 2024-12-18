@@ -12,10 +12,10 @@ export interface Movie {
   release_date: Date;      // release_date is optional and a Date type
   vote_average: number;    // vote_average is optional
   vote_count: number;      // vote_count is optional
-  trailer?: string;         // trailer is optional
-  movie?: string;           // movie is optional
-  processing?: boolean;     // processing is optional and a boolean
-  status?: string;          // status is optional
+  trailer: string;         // trailer is optional
+  movie: string;           // movie is optional
+  processing: boolean;     // processing is optional and a boolean
+  status: string;          // status is optional
 }
 
 export interface MoviesResponse {

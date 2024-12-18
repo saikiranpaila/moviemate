@@ -26,7 +26,8 @@
             <div class="desc">
                 {{ data.overview }}
             </div>
-            <button *ngIf="data.movie" type="button" class="button button--icon trailer" (click)="openTrailer()">
+            <button *ngIf="data.movie" type="button" class="button button--icon trailer"
+                (click)="openTrailer(data.trailer||'', data.title, data.poster_path)">
                 <span class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#fff">
@@ -36,7 +37,8 @@
                 </span>
                 <span class="txt">Play Trailer</span>
             </button>
-            <button *ngIf="data.movie" type="button" class="button button--icon movie" (click)="openMovie()">
+            <button *ngIf="data.movie" type="button" class="button button--icon movie"
+                (click)="openMovie(data.movie, data.title, data.poster_path)">
                 <span class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                         fill="#5f6368">
@@ -49,7 +51,5 @@
         </div>
     </div>
 </div>
-<app-modal [videoUrl]="data.trailer" [posterUrl]="data.backdrop" [title]="data.title+' (Trailer)'"
-    #trailermodal></app-modal>
-<app-modal [videoUrl]="data.movie" [posterUrl]="data.backdrop" [title]="data.title" #moviemodal></app-modal>
+<app-modal #modal></app-modal>
 }

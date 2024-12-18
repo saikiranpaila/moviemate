@@ -47,6 +47,7 @@ import { LanguageNamePipe } from './components/global/pipe/language-name.pipe';
 // import { EpisodesComponent } from './components/global/episodes/episodes.component';
 import { ModalComponent } from './components/global/modal/modal.component';
 import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 @NgModule({
@@ -87,6 +88,7 @@ import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
     // EpisodesComponent,
     ModalComponent,
     SafeUrlPipe,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,

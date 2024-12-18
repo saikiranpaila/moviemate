@@ -11,15 +11,15 @@ import { Movie } from '../../../models/Movies';
 export class HeroComponent {
   @Input() data!: Movie;
 
-  @ViewChild('trailermodal') trailermodal!: ModalComponent;
-  @ViewChild('moviemodal') moviemodal!: ModalComponent;
+  @ViewChild('modal') modal!: ModalComponent;
 
-  constructor(private apiService: ApiService){}
+  constructor(private apiService: ApiService) { }
 
-  openTrailer() {
-    this.trailermodal.openModal();
+  openTrailer(link: string, title: string, poster: string) {
+    title = `${title} (Trailer)`
+    this.modal.openModal(link, title, poster);
   }
-  openMovie() {
-    this.moviemodal.openModal()
+  openMovie(link: string, title: string, poster: string) {
+    this.modal.openModal(link, title, poster)
   }
 }

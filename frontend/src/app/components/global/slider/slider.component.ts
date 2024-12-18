@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
 import { trigger, transition, animate, style } from '@angular/animations';
 import { ModalComponent } from '../modal/modal.component';
 import { ApiService } from '../../../api/api.service';
-import { MoviesResponse } from '../../../models/Movies';
+import { Movie, MoviesResponse } from '../../../models/Movies';
 
 @Component({
   selector: 'app-slider',
@@ -24,10 +24,9 @@ export class SliderComponent implements OnInit, OnDestroy {
   @Input() data!: MoviesResponse;
   current = 0;
   private intervalId: any;
-  @ViewChild('trailermodal') trailermodal!: ModalComponent;
-  @ViewChild('moviemodal') moviemodal!: ModalComponent;
+  @ViewChild('modal') modal!: ModalComponent;
 
-  constructor(private apiService: ApiService){}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
     this.sliderTimer();
@@ -36,7 +35,7 @@ export class SliderComponent implements OnInit, OnDestroy {
   sliderTimer() {
     this.intervalId = setInterval(() => {
       this.current = (this.current + 1) % this.data.result.length;
-    }, 500000);
+    }, 5000);
   }
 
   ngOnDestroy() {
@@ -45,10 +44,11 @@ export class SliderComponent implements OnInit, OnDestroy {
     }
   }
 
-  openTrailer() {
-    this.trailermodal.openModal();
+  openTrailer(link: string, title: string, poster: string) {
+    title =  `${title} (Trailer)`
+    this.modal.openModal(link, title, poster);
   }
-  openMovie() {
-    this.moviemodal.openModal()
+  openMovie(link: string, title: string, poster: string) {
+    this.modal.openModal(link, title, poster)
   }
 }  

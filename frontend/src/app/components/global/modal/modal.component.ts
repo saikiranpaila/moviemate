@@ -6,18 +6,23 @@ import { Component, input, Input } from '@angular/core';
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-  @Input({required: true}) videoUrl!: string|undefined;
-  @Input({required: false}) posterUrl!: string|undefined;
-  @Input({required: true}) title!: string;
+  videoUrl!: string | undefined;
+  posterUrl!: string | undefined;
+  title!: string;
   isVisible = false;
 
-  openModal() {
+  openModal(videoUrl: string, title: string, posterUrl: string = '') {
+    this.videoUrl = videoUrl
+    this.title = title
+    this.posterUrl = posterUrl
     this.isVisible = true;
   }
 
   closeModal() {
     this.isVisible = false;
     this.videoUrl = '';
+    this.posterUrl = '';
+    this.title = '';
   }
 
 }
