@@ -2,6 +2,7 @@ import { NgClass } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { BackendService } from '../../services/backend.service';
+import { Movie } from '../../models/Movies';
 
 @Component({
   selector: 'app-manage-movie',
@@ -22,6 +23,12 @@ export class ManageMovieComponent {
   movieBackdrop!: FormControl;
 
   movieForm!: FormGroup;
+
+  toast = {
+    show: false,
+    message: '',
+    success: false,
+  }
 
   constructor(private backend: BackendService) { }
 
@@ -100,15 +107,33 @@ export class ManageMovieComponent {
       this.movieForm.value.genres = this.movieForm.value.genres.map((genre: string) => genre.trim());
       console.log(this.movieForm.value);
       this.backend.newMovie(this.movieForm.value).subscribe({
-        next: (res: any) => {
+        next: (res: Movie) => {
           console.log("successfully pushed ", res)
+          this.showToast("Movie Pushed", true)
         },
         error: (err: any) => {
           console.log("error ", err)
+          this.showToast("Unable to push Movie", false)
         }
       })
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  showToast(message: string, success: boolean) {
+    this.toast.show = true;
+    this.toast.message = message
+    this.toast.success = success
+    setTimeout(() => {
+      this.toast.message = ''
+      this.hideToast();
+    }, 3000);
+  }
+
+  hideToast() {
+    this.toast.show = false;
+    this.toast.message = ''
+    this.toast.success = true
   }
 }
