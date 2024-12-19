@@ -2,8 +2,7 @@
 <div class="left">
     <div class="poster">
         <!-- Poster for Movies or TV Shows -->
-        <img *ngIf="data?.poster_path" alt="{{ data.title }}" class="lazyload"
-            [src]="data.poster_path" />
+        <img *ngIf="data?.poster_path" alt="{{ data.title }}" class="lazyload" [src]="data.poster_path" />
     </div>
 </div>
 <div class="right">
@@ -21,7 +20,7 @@
 
             <li *ngIf="data.runtime">
                 <div class="label">Runtime</div>
-                <div class="value">{{ data.runtime}} Minutes</div>
+                <div class="value">{{ data.runtime | minutesToTime}}</div>
             </li>
             <li *ngIf="data.genre?.length">
                 <div class="label">Genre</div>

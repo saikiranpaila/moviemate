@@ -48,6 +48,7 @@ import { LanguageNamePipe } from './components/global/pipe/language-name.pipe';
 import { ModalComponent } from './components/global/modal/modal.component';
 import { SafeUrlPipe } from './components/global/pipe/safe-url.pipe';
 import { FooterComponent } from './components/footer/footer.component';
+import { MinutesToTimePipe } from './components/global/pipe/minutes-to-time.pipe';
 
 
 @NgModule({
@@ -89,6 +90,7 @@ import { FooterComponent } from './components/footer/footer.component';
     ModalComponent,
     SafeUrlPipe,
     FooterComponent,
+    MinutesToTimePipe,
   ],
   imports: [
     BrowserModule,

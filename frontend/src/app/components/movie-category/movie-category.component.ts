@@ -26,29 +26,31 @@ export class MovieCategoryComponent implements OnInit {
   }
 
   updateMoviesList() {
-    this.isLoading=true;
+    this.isLoading = true;
     this.apiService.getMovies(this.page, this.perPage).subscribe({
       next: (res: MoviesResponse) => {
         this.movies.push(...res.result)
         this.page = parseInt(res.page) + 1
         if (parseInt(res.page) >= res.totalPages) {
-          this.pageAvailable=false
+          this.pageAvailable = false
         } else {
-          this.pageAvailable=true
+          this.pageAvailable = true
         }
       },
       error: (err) => { console.log(err) }
     })
-    this.isLoading=false;
+    this.isLoading = false;
   }
 
   @HostListener('window:scroll', ['$event'])
   onScroll(event: Event) {
     const pos = (document.documentElement.scrollTop || document.body.scrollTop) + window.innerHeight;
     const max = document.documentElement.scrollHeight || document.body.scrollHeight;
-    if (this.pageAvailable) {
-      if (pos > max - 100) {
-        this.updateMoviesList();
+    if (this.isLoading) {
+      if (this.pageAvailable) {
+        if (pos > max - 100) {
+          this.updateMoviesList();
+        }
       }
     }
   }
