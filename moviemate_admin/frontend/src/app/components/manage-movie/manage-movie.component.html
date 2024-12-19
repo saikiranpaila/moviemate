@@ -1,0 +1,137 @@
+<div class="container manage-container">
+    <form [formGroup]="movieForm">
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': movieTitle.invalid && movieTitle.touched}" id="movieTitle"
+                        placeholder="Movie Title" [formControl]="movieTitle">
+                    <label for="movieTitle">Movie Title</label>
+                    <div class="invalid-feedback">
+                        Please enter the movie title
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': movieLang.invalid && movieLang.touched}" id="movieLang"
+                        placeholder="English" [formControl]="movieLang">
+                    <label for="movieLang">Language</label>
+                    <div class="invalid-feedback">
+                        Please specify the movie language.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="number" min="1" max="300" class="form-control"
+                        [ngClass]="{'is-invalid': movieRuntime.invalid && movieRuntime.touched}" id="movieRuntime"
+                        placeholder="Movie Runtime" [formControl]="movieRuntime">
+                    <label for="movieRuntime">Movie Runtime (Minutes)</label>
+                    <div class="invalid-feedback">
+                        Please specify the movie runtime.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="movieOverview" class="form-label">Movie Overview</label>
+            <textarea class="form-control" [ngClass]="{'is-invalid': movieOverview.invalid && movieOverview.touched}"
+                id="movieOverview" placeholder="Movie Overview" [formControl]="movieOverview"></textarea>
+            <div class="invalid-feedback">
+                Please provide the movie overview
+            </div>
+        </div>
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': movieGenres.invalid && movieGenres.touched}" id="movieGenre"
+                        placeholder="Movie Genre" [formControl]="movieGenres">
+                    <label for="movieGenre">Movie Genre (comma separated)</label>
+                    <div class="invalid-feedback">
+                        Please specify the movie genre.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control"
+                        [ngClass]="{'is-invalid': movieReleaseDate.invalid && movieReleaseDate.touched}"
+                        id="movieReleaseDate" placeholder="Movie Release Date (YYYY-MM-DD)"
+                        [formControl]="movieReleaseDate">
+                    <label for="movieReleaseDate">Movie Release Date (YYYY-MM-DD)</label>
+                    <div class="invalid-feedback">
+                        Please specify the movie release date.
+                    </div>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <select class="form-select" [ngClass]="{'is-invalid': movieRating.invalid && movieRating.touched}"
+                        id="movieRating" [formControl]="movieRating">
+                        <option value="1">1 Star</option>
+                        <option value="2">2 Star</option>
+                        <option value="3">3 Star</option>
+                        <option value="4">4 Star</option>
+                        <option selected value="5">5 Star</option>
+                    </select>
+                    <label for="movieRating">Movie Rating</label>
+                    <div class="invalid-feedback">
+                        Please specify the movie rating.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row g-2">
+            <div class="col-md-4">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="moviePoster"
+                        [ngClass]="{'is-invalid': moviePoster.invalid && moviePoster.touched}" placeholder="Poster"
+                        [formControl]="moviePoster">
+                    <label for="moviePoster">Movie Poster Link</label>
+                    @if(moviePoster.value){
+                    <div class="invalid-feedback">
+                        Malformed Link
+                    </div>
+                    } @else {
+                    <div class="invalid-feedback">
+                        Please provide the link
+                    </div>
+                    }
+                    @if(moviePoster.value && moviePoster.valid) {
+                    <div class="movie-img">
+                        <img [src]="moviePoster.value" class="img-fluid rounded" alt="Unable to load Poster Image"
+                            style="max-width: 100%; max-height: 100%;">
+                    </div>
+                    }
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" id="movieBackdrop"
+                        [ngClass]="{'is-invalid': movieBackdrop.invalid && movieBackdrop.touched}"
+                        placeholder="Movie Backdrop" [formControl]="movieBackdrop">
+                    <label for="movieBackdrop">Movie Backdrop Link</label>
+                    @if(movieBackdrop.value){
+                        <div class="invalid-feedback">
+                            Malformed Link
+                        </div>
+                        } @else {
+                        <div class="invalid-feedback">
+                            Please provide the link
+                        </div>
+                        }
+                    @if(movieBackdrop.value && movieBackdrop.valid) {
+                    <div class="movie-img">
+                        <img [src]="movieBackdrop.value" class="img-fluid rounded" alt="Unable to load Backdrop Image"
+                            style="max-width: 100%; max-height: 100%;">
+                    </div>
+                    }
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary submit-button" [disabled]="movieForm.invalid" (click)="onSubmit()">Submit</button>
+    </form>
+</div>

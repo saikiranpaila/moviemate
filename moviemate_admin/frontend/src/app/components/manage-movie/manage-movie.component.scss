@@ -1,0 +1,37 @@
+.manage-container {
+    padding: 1rem;
+}
+
+.movie-img {
+    padding: 1rem;
+    margin: 1rem;
+    border: 2px dashed #b9b9b9;
+    background-color: #f5f5f5;
+    border-radius: 1%;
+    height: 30rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width: 1200px) {
+    .movie-img {
+        height: 25rem;
+    }
+}
+
+@media (max-width: 992px) {
+    .movie-img {
+        height: 20rem;
+    }
+}
+
+@media (max-width: 567px) {
+    .movie-img {
+        height: 15rem;
+    }
+}
+
+.submit-button:disabled {
+    cursor: not-allowed;
+}
