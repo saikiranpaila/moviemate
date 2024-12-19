@@ -23,7 +23,7 @@
             <div class="desc">
                 {{ data.overview }}
             </div>
-            <button *ngIf="data.movie" type="button" class="button button--icon trailer"
+            <button *ngIf="data.trailer" type="button" class="button button--icon trailer"
                 (click)="openTrailer(data.trailer||'', data.title, data.poster_path)">
                 <span class="icon">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"

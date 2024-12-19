@@ -14,22 +14,36 @@
                 </div>
             </div>
         </div>
+        @for(movie of movies; track movie.id;){
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
-                    <img src="https://image.tmdb.org/t/p/original/1g0dhYtq4irTY1GPXvft6k4YLjm.jpg"
-                        class="img-fluid rounded-start" alt="...">
+                    <img [src]="movie.poster_path" class="img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8">
                     <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">This is a wider card with supporting text below as a natural lead-in to
-                            additional content. This content is a little bit longer.</p>
-                        <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p>
+                        <h5 class="card-title">{{movie.title}}</h5>
+                        <p class="card-text m-0">Status: {{movie.status}}</p>
+                        <p class="card-text m-0">Trailer: {{'Avaliable'}}</p>
+                        <p class="card-text m-0">Movie: {{'Avaliable'}}</p>
+                        <p class="card-text m-0">Processing: {{'Avaliable'}}</p>
+                        <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+                        <div class="conatiner m-3">
+                            <div class="row">
+                                <div class="btn-group p-0" role="group" aria-label="Basic outlined example">
+                                    <button type="button" class="btn btn-outline-secondary">Add Trailer URL</button>
+                                    <button type="button" class="btn btn-outline-primary">Upload Movie</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="conatiner" style="display: flex; justify-content: flex-end;">
+                            <button type="button" class="btn btn-outline-danger">Edit</button>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        }
     </div>
 </div>
 } @else {
