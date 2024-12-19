@@ -8,11 +8,8 @@ class MovieResponse {
         this.backdrop = movieData.backdrop || '';  // Default empty string if not available
         this.lang = movieData.lang || '';  // Default empty string if not available
         this.runtime = movieData.runtime || null;  // Default null if not available
-        this.original_language = movieData.original_language || '';  // Default empty string if not available
         this.genre_ids = movieData.genre_ids || [];  // Default empty array if not available
         this.release_date = movieData.release_date || null;  // Default null if not available
-        this.vote_average = movieData.vote_average || 0;  // Default 0 if not available
-        this.vote_count = movieData.vote_count || 0;  // Default 0 if not available
         this.trailer = movieData.trailer || '';  // Default empty string if not available
         this.movie = movieData.movie || '';  // Default empty string if not available
         this.processing = movieData.processing || false;  // Default false if not available
@@ -35,11 +32,8 @@ class MovieResponse {
             backdrop: this.backdrop,
             lang: this.lang,
             runtime: this.runtime,
-            original_language: this.original_language,
             genre_ids: this.genre_ids,
             release_date: this.getFormattedReleaseDate(),
-            vote_average: this.vote_average,
-            vote_count: this.vote_count,
             trailer: this.trailer,
             movie: this.movie,
             processing: this.processing,
