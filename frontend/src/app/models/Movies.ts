@@ -7,11 +7,8 @@ export interface Movie {
   backdrop: string;        // backdrop is optional
   lang: string;            // lang is optional
   runtime: number;         // runtime is optional
-  original_language: string; // original_language is optional
   genre: string[];         // genre is an optional array of strings
   release_date: Date;      // release_date is optional and a Date type
-  vote_average: number;    // vote_average is optional
-  vote_count: number;      // vote_count is optional
   trailer: string;         // trailer is optional
   movie: string;           // movie is optional
   processing: boolean;     // processing is optional and a boolean

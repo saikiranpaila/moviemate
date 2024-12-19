@@ -13,10 +13,7 @@
             <div class="meta">
                 <div class="rating">
                     <div class="stars">
-                        <div [style.width.%]="100"></div>
-                    </div>
-                    <div *ngIf="data.vote_count > 0">
-                        {{ data.vote_count }} Reviews
+                        <div [style.width.%]="data.rating*20"></div>
                     </div>
                 </div>
                 <div class="info">
@@ -99,10 +96,7 @@
                     <div class="meta">
                         <div class="rating">
                             <div class="stars">
-                                <div [style.width.%]="( data.vote_average / 10) * 100"></div>
-                            </div>
-                            <div *ngIf=" data.vote_count > 0">
-                                {{ data.vote_count | numberWithCommas }} Reviews
+                                <div [style.width]="data.rating*20"></div>
                             </div>
                         </div>
                         <div class="info">

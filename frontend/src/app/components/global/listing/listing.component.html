@@ -18,9 +18,8 @@
             <h2 class="card__name">{{ item.title }}</h2>
             <div class="card__rating">
                 <div class="card__stars">
-                    <div [style.width.%]="item.rating"></div>
+                    <div [style.width.%]="item.rating*20"></div>
                 </div>
-                <div class="card__vote">{{ item.vote_count }}</div>
             </div>
         </a>
     </div>

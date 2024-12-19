@@ -14,10 +14,7 @@
           <div class="meta">
             <div class="rating">
               <div class="stars">
-                <div [style.width.%]="( hero.vote_average / 10) * 100"></div>
-              </div>
-              <div *ngIf=" hero.vote_count > 0">
-                {{ hero.vote_count | numberWithCommas }} Reviews
+                <div [style.width.%]="hero.rating*20"></div>
               </div>
             </div>
             <div class="info">
@@ -74,7 +71,8 @@
             <p>{{data.result[0].overview}}</p>
 
             @if (data.result[0].movie) {
-            <button (click)="openTrailer(data.result[0].trailer||'', data.result[0].title, data.result[0].poster_path)" class="play-trailer">
+            <button (click)="openTrailer(data.result[0].trailer||'', data.result[0].title, data.result[0].poster_path)"
+              class="play-trailer">
               Play Trailer
             </button>
             }
@@ -103,10 +101,7 @@
           <div class="meta">
             <div class="rating">
               <div class="stars">
-                <div [style.width.%]="( data.result[0].vote_average / 10) * 100"></div>
-              </div>
-              <div *ngIf=" data.result[0].vote_count > 0">
-                {{ data.result[0].vote_count | numberWithCommas }} Reviews
+                <div [style.width.%]="data.result[0].rating*20"></div>
               </div>
             </div>
             <div class="info">
