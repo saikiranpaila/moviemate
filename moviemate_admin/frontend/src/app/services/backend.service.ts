@@ -16,4 +16,8 @@ export class BackendService {
     const url = `${this.url}/api/v1/movie`
     return this.http.post<Movie>(url, body);
   }
+  updateMovie(movie: Movie) {
+    const url = `${this.url}/api/v1/movies/${movie.id}`
+    return this.http.post<Movie>(url, movie);
+  }
 }

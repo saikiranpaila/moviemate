@@ -1,0 +1,28 @@
+@if(trailer) {
+<!-- [formGroup]="trailerForm" (ngSubmit)="updateTrailerURL(i)" -->
+<form [formGroup]="trailerURLFormGroup" (ngSubmit)="updateTrailerURL()">
+    <div class="form-floating mb-3">
+        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" [value]="trailer"
+            [formControl]="trailerURLFormControl">
+        <label for="floatingInput">Trailer Link</label>
+    </div>
+    <div class="col" style="display: flex; justify-content: flex-end;">
+        <button class="btn btn-outline-secondary m-1" (click)="backHome()">Cancel</button>
+        <button class="btn btn-primary m-1" type="submit">Update</button>
+    </div>
+</form>
+}
+@if(movie) {
+<div class="mb-3">
+    <label for="formFile" class="form-label">Default file input example</label>
+    <input class="form-control" type="file" id="formFile">
+</div>
+<div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
+    aria-valuemax="100">
+    <div class="progress-bar" style="width: 25%">25%</div>
+</div>
+<div class="col m-1" style="display: flex; justify-content: flex-end;">
+    <button class="btn btn-outline-secondary m-1" type="submit" (click)="backHome()">Cancel</button>
+    <button class="btn btn-primary m-1" type="submit">Upload</button>
+</div>
+}

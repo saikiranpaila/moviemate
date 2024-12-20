@@ -14,7 +14,7 @@
                 </div>
             </div>
         </div>
-        @for(movie of movies; track movie.id;){
+        @for(movie of movies; track movie.id;let i = $index){
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
@@ -23,21 +23,31 @@
                 <div class="col-md-8">
                     <div class="card-body">
                         <h5 class="card-title">{{movie.title}}</h5>
-                        <p class="card-text m-0">Status: {{movie.status}}</p>
-                        <p class="card-text m-0">Trailer: {{'Avaliable'}}</p>
-                        <p class="card-text m-0">Movie: {{'Avaliable'}}</p>
-                        <p class="card-text m-0">Processing: {{'Avaliable'}}</p>
-                        <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
-                        <div class="conatiner m-3">
-                            <div class="row">
-                                <div class="btn-group p-0" role="group" aria-label="Basic outlined example">
-                                    <button type="button" class="btn btn-outline-secondary">Add Trailer URL</button>
-                                    <button type="button" class="btn btn-outline-primary">Upload Movie</button>
+                        <div class="container-fluid p-0">
+                            @if(movieControl[i].main) {
+                            <p class="card-text m-0">Status: {{movie.status}}</p>
+                            <p class="card-text m-0">Trailer: {{'Avaliable'}}</p>
+                            <p class="card-text m-0">Movie: {{'Avaliable'}}</p>
+                            <p class="card-text m-0">Processing: {{'Avaliable'}}</p>
+                            <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
+                            <div class="conatiner m-3">
+                                <div class="row">
+                                    <div class="btn-group p-0" role="group" aria-label="Basic outlined example">
+                                        <button type="button" class="btn btn-outline-secondary"
+                                            (click)="switchTrailer(i)">Add Trailer URL</button>
+                                        <button type="button" class="btn btn-outline-primary"
+                                            (click)="switchMovie(i)">Upload Movie</button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="conatiner" style="display: flex; justify-content: flex-end;">
-                            <button type="button" class="btn btn-outline-danger">Edit</button>
+                            <div class="conatiner" style="display: flex; justify-content: flex-end;">
+                                <button type="button" class="btn btn-outline-danger">Edit</button>
+                            </div>
+                            }
+                            @else {
+                            <app-stream-update [movieID]="movie.id" [movie]="movieControl[i].movie"
+                                [trailer]="movieControl[i].trailer" (back)="backHome(i)"></app-stream-update>
+                            }
                         </div>
                     </div>
                 </div>

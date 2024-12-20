@@ -1,5 +1,5 @@
 <div class="container manage-container">
-    <form [formGroup]="movieForm">
+    <form [formGroup]="movieForm" (ngSubmit)="onSubmit()">
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating mb-3">
@@ -132,8 +132,7 @@
                 </div>
             </div>
         </div>
-        <button type="submit" class="btn btn-primary submit-button" [disabled]="movieForm.invalid"
-            (click)="onSubmit()">Submit</button>
+        <button type="submit" class="btn btn-primary submit-button" [disabled]="movieForm.invalid">Submit</button>
     </form>
 </div>
 
