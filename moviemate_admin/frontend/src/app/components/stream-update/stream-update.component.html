@@ -15,14 +15,20 @@
 @if(movie) {
 <div class="mb-3">
     <label for="formFile" class="form-label">Default file input example</label>
-    <input class="form-control" type="file" id="formFile">
+    <input class="form-control" type="file" id="formFile" accept=".mp4, .mkv"  (change)="onFileSelect($event)">
 </div>
-<div class="progress" role="progressbar" aria-label="Example with label" aria-valuenow="25" aria-valuemin="0"
-    aria-valuemax="100">
-    <div class="progress-bar" style="width: 25%">25%</div>
+
+<!-- Progress bar -->
+<div class="progress" role="progressbar" aria-label="Example with label" [attr.aria-valuenow]="uploadProgress"
+    aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar" [style.width]="uploadProgress + '%'">{{ uploadProgress }}%</div>
 </div>
+
+<!-- Buttons for cancel and upload -->
 <div class="col m-1" style="display: flex; justify-content: flex-end;">
-    <button class="btn btn-outline-secondary m-1" type="submit" (click)="backHome()">Cancel</button>
-    <button class="btn btn-primary m-1" type="submit">Upload</button>
+    <button class="btn btn-outline-secondary m-1" type="button" (click)="backHome()">Cancel</button>
+    <button class="btn btn-primary m-1" type="button" (click)="upload()"
+        [disabled]="isUploading || !file">Upload</button>
 </div>
+
 }
