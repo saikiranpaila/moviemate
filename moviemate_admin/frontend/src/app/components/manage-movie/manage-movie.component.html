@@ -57,11 +57,11 @@
             </div>
             <div class="col-md">
                 <div class="form-floating mb-3">
-                    <input type="text" class="form-control"
+                    <input type="date" class="form-control"
                         [ngClass]="{'is-invalid': movieReleaseDate.invalid && movieReleaseDate.touched}"
-                        id="movieReleaseDate" placeholder="Movie Release Date (YYYY-MM-DD)"
+                        id="movieReleaseDate" placeholder="Movie Release Date (DD-MM-YYYY)"
                         [formControl]="movieReleaseDate">
-                    <label for="movieReleaseDate">Movie Release Date (YYYY-MM-DD)</label>
+                    <label for="movieReleaseDate">Movie Release Date (DD-MM-YYYY)</label>
                     <div class="invalid-feedback">
                         Please specify the movie release date.
                     </div>

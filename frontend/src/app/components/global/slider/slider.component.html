@@ -80,7 +80,7 @@
             <h4>Categories</h4>
 
             <div class="content__data--categories">
-              @for (genre of data.result[0].genre; track genre) {
+              @for (genre of data.result[0].genres; track genre) {
               <button mat-raised-button color="primary" aria-label="Genres" disabled>{{genre}}</button>
               }
             </div>

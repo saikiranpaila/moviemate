@@ -1,5 +1,5 @@
 import { NgClass } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { BackendService } from '../../services/backend.service';
 import { Movie } from '../../models/Movies';
@@ -13,7 +13,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   templateUrl: './manage-movie.component.html',
   styleUrl: './manage-movie.component.scss'
 })
-export class ManageMovieComponent {
+export class ManageMovieComponent implements AfterViewInit {
   movieTitle!: FormControl;
   movieLang!: FormControl;
   movieRuntime!: FormControl;
@@ -27,7 +27,6 @@ export class ManageMovieComponent {
   movieForm!: FormGroup;
 
   movieId: string = ''
-  loading: boolean = true
   editing: boolean = false
 
   @ViewChild('toast') toast!: ToastComponent;
@@ -71,20 +70,34 @@ export class ManageMovieComponent {
       genres: this.movieGenres,
       release_date: this.movieReleaseDate,
     });
-
     // Listen for changes in the movieGenre FormControl and convert the input string to an array
     this.movieGenres.valueChanges.subscribe(value => {
       // Convert the comma-separated string into an array
+      if (Array.isArray(value)) return
       this.movieGenres.setValue(this.convertGenresToArray(value), { emitEvent: false });
     });
-    this.movieForm.disable();
+  }
+
+  ngAfterViewInit(): void {
     this.route.queryParams.subscribe(params => {
       if (params['id']) {
+        this.movieForm.disable()
         this.movieId = params['id'];
         this.editing = true
-        this.loading = true;
         this.backend.getMovie(this.movieId).subscribe({
-          next: this.populateFields,
+          next: (res: Movie) => {// Populate form fields
+            this.movieTitle.setValue(res.title || '');
+            this.movieLang.setValue(res.lang || '');
+            this.movieRuntime.setValue(res.runtime || '');
+            this.movieOverview.setValue(res.overview || '');
+            const genres = res.genres?.join(', ')
+            this.movieGenres.setValue(genres || '');
+            this.movieReleaseDate.setValue(this.formatDate(res?.release_date?.toString() || ''));
+            this.movieRating.setValue(res.rating || '');
+            this.moviePoster.setValue(res.poster_path || '');
+            this.movieBackdrop.setValue(res.backdrop || '');
+            this.movieForm.enable()
+          },
           error: (err) => {
             this.toast.showToast("Unable to find the movie", false)
           }
@@ -93,23 +106,17 @@ export class ManageMovieComponent {
     })
   }
 
-  populateFields(res: Movie) {
-    console.log(res);
+  formatDate(inputDate: string) {
+    if (inputDate == '') return ''
+    // Split the input date string by "/"
+    const [month, day, year] = inputDate.split('/');
 
-    // Populate form fields
-    this.movieTitle.setValue(res.title || '');
-    this.movieLang.setValue(res.lang || '');
-    this.movieRuntime.setValue(res.runtime || '');
-    this.movieOverview.setValue(res.overview || '');
-    this.movieGenres.setValue(res.genres || []);
-    this.movieReleaseDate.setValue(res.release_date || '');
-    this.movieRating.setValue(res.rating || '');
-    this.moviePoster.setValue(res.poster_path || '');
-    this.movieBackdrop.setValue(res.backdrop || '');
+    // Pad day and month to ensure they are two digits
+    const formattedDay = day.padStart(2, '0');
+    const formattedMonth = month.padStart(2, '0');
 
-    // Re-enable the form once the data is populated
-    this.movieForm.enable();
-    this.loading = false;
+    // Return the formatted date in "MM-DD-YYYY" format
+    return `${year}-${formattedMonth}-${formattedDay}`;
   }
 
   // Convert comma-separated genres into an array
