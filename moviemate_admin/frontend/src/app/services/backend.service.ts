@@ -13,6 +13,10 @@ export class BackendService {
     const url = `${this.url}/api/v1/movies`
     return this.http.get<MoviesResponse>(url);
   }
+  getMovie(id: string) {
+    const url = `${this.url}/api/v1/movies/${id}`
+    return this.http.get<Movie>(url);
+  }
   newMovie(body: any) {
     const url = `${this.url}/api/v1/movie`
     return this.http.post<Movie>(url, body);

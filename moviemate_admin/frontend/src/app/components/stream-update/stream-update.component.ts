@@ -6,7 +6,7 @@ import { ToastComponent } from '../toast/toast.component';
 @Component({
   selector: 'app-stream-update',
   standalone: true,
-  imports: [ReactiveFormsModule, ToastComponent],
+  imports: [ReactiveFormsModule],
   templateUrl: './stream-update.component.html',
   styleUrl: './stream-update.component.scss'
 })
@@ -15,6 +15,8 @@ export class StreamUpdateComponent implements OnInit {
   @Input({ alias: 'movieID', required: true }) movieID!: string
   @Input({ alias: 'trailer', required: true }) trailer!: boolean
   @Input({ alias: 'movie', required: true }) movie!: boolean
+  @Input('toast') toast!: ToastComponent;
+
   @Output('back') back = new EventEmitter<boolean>();
   file: File | null = null;
   uploadId?: string;
@@ -26,7 +28,6 @@ export class StreamUpdateComponent implements OnInit {
   movieFormControl: FormControl = new FormControl('', Validators.required)
   trailerURLFormGroup!: FormGroup
   movieFormGroup!: FormGroup
-  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private backend: BackendService) { }
 
@@ -47,6 +48,7 @@ export class StreamUpdateComponent implements OnInit {
   }
 
   updateTrailerURL() {
+    console.log("hello")
     console.log(this.trailerURLFormGroup.value)
     this.backend.updateMovie({ id: this.movieID, trailer: this.trailerURLFormGroup.value.trailerURL }).subscribe({
       next: (res) => {
@@ -145,8 +147,8 @@ export class StreamUpdateComponent implements OnInit {
   cancelUpload() {
     if (this.isUploading && this.uploadId && this.file) {
       this.backend.abortUpload(this.uploadId, this.file.name).subscribe({
-        next: (res) => { console.log(res), this.abortController?.abort(); },
-        error: (err) => console.log(err)
+        next: (res) => { console.log(res), this.abortController?.abort(); this.toast.showToast("Upload aborted", true) },
+        error: (err) => {console.log(err), this.toast.showToast("Failed to abort upload", false) }
       })
     }
   }

@@ -22,16 +22,16 @@
                 <div class="label">Runtime</div>
                 <div class="value">{{ data.runtime | minutesToTime}}</div>
             </li>
-            <li *ngIf="data.genre?.length">
+            <li *ngIf="data.genres?.length">
                 <div class="label">Genre</div>
-                <div class="comma_" *ngFor="let gen of data?.genre">
+                <div class="comma_" *ngFor="let gen of data?.genres">
                     <a>{{ gen }}</a>
                 </div>
             </li>
-            <li *ngIf="data?.status">
+            <!-- <li *ngIf="data?.status">
                 <div class="label">Status</div>
                 <div class="value">{{data.status}}</div>
-            </li>
+            </li> -->
             <li *ngIf="data?.lang?.length">
                 <div class="label">Language</div>
                 <div class="comma_">

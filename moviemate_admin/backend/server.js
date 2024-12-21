@@ -67,7 +67,7 @@ app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
   try {
     const { id } = req.params; // Get the custom ID from the URL parameter
 
-    // Find the movie using the customId field (make sure `customId` is indexed in your schema)
+    // Find the movie using the id
     const movie = await Movie.findOne({ id: id });
 
     if (!movie) {

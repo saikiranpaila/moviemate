@@ -13,7 +13,7 @@ import { ToastComponent } from '../toast/toast.component';
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
-  movies?: Movie[]
+  movies!: Movie[]
   movieControl!: MovieControl[]
   @ViewChild('toast') toast!: ToastComponent;
   constructor(private router: Router, private backend: BackendService) {
@@ -38,6 +38,19 @@ export class HomeComponent implements OnInit {
   }
   manageMovie() {
     this.router.navigate(['/manage'])
+  }
+
+  refresh(index: number) {
+    this.backend.getMovie(this.movieControl[index].movieID).subscribe(
+      {
+        next: (res: Movie) => {
+          this.movies[index] = { ...this.movies[index], ...res }
+        },
+        error: (err) => {
+          console.log("unable to refresh")
+        }
+      }
+    )
   }
 
   switchTrailer(i: number) {

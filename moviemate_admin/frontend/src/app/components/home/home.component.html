@@ -40,13 +40,14 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="conatiner" style="display: flex; justify-content: flex-end;">
+                            <div class="conatiner d-flex justify-content-end gap-2">
+                                <button type="button" class="btn btn-outline-secondary" (click)="refresh(i)">Refresh</button>
                                 <button type="button" class="btn btn-outline-danger">Edit</button>
                             </div>
                             }
                             @else {
                             <app-stream-update [movieID]="movie.id" [movie]="movieControl[i].movie"
-                                [trailer]="movieControl[i].trailer" (back)="backHome(i)"></app-stream-update>
+                                [trailer]="movieControl[i].trailer" [toast]="toast" (back)="backHome(i)"></app-stream-update>
                             }
                         </div>
                     </div>
