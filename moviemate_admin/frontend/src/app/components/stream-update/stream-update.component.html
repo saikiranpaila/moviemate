@@ -1,5 +1,4 @@
 @if(trailer) {
-<!-- [formGroup]="trailerForm" (ngSubmit)="updateTrailerURL(i)" -->
 <form [formGroup]="trailerURLFormGroup" (ngSubmit)="updateTrailerURL()">
     <div class="form-floating mb-3">
         <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" [value]="trailer"
@@ -15,7 +14,7 @@
 @if(movie) {
 <div class="mb-3">
     <label for="formFile" class="form-label">Default file input example</label>
-    <input class="form-control" type="file" id="formFile" accept=".mp4, .mkv"  (change)="onFileSelect($event)">
+    <input class="form-control" type="file" id="formFile" accept=".mp4" (change)="onFileSelect($event)">
 </div>
 
 <!-- Progress bar -->
@@ -32,3 +31,5 @@
 </div>
 
 }
+
+<app-toast #toast></app-toast>

@@ -1,11 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, viewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BackendService } from '../../services/backend.service';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-stream-update',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ToastComponent],
   templateUrl: './stream-update.component.html',
   styleUrl: './stream-update.component.scss'
 })
@@ -16,13 +17,16 @@ export class StreamUpdateComponent implements OnInit {
   @Input({ alias: 'movie', required: true }) movie!: boolean
   @Output('back') back = new EventEmitter<boolean>();
   file: File | null = null;
+  uploadId?: string;
   uploadProgress: number = 0;
   isUploading: boolean = false;
+  abortController: AbortController | null = null;
 
   trailerURLFormControl: FormControl = new FormControl('')
   movieFormControl: FormControl = new FormControl('', Validators.required)
   trailerURLFormGroup!: FormGroup
   movieFormGroup!: FormGroup
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private backend: BackendService) { }
 
@@ -36,12 +40,23 @@ export class StreamUpdateComponent implements OnInit {
   }
 
   backHome() {
+    if (this.isUploading) {
+      this.cancelUpload()
+    }
     this.back.emit(true)
   }
 
   updateTrailerURL() {
     console.log(this.trailerURLFormGroup.value)
-    this.backend.updateMovie({ id: this.movieID, trailer: this.trailerURLFormGroup.value.trailerURL })
+    this.backend.updateMovie({ id: this.movieID, trailer: this.trailerURLFormGroup.value.trailerURL }).subscribe({
+      next: (res) => {
+        this.toast.showToast("Trailer Updated", true)
+      },
+      error: (err) => {
+        this.toast.showToast("Unable to update trailer", false)
+      }
+    }
+    )
   }
 
   // This method is called when the user selects a file
@@ -54,7 +69,7 @@ export class StreamUpdateComponent implements OnInit {
   // This method is called when the upload button is clicked
   upload() {
     if (!this.file) {
-      alert('Please select a file to upload.');
+      this.toast.showToast("Select a file to upload", false)
       return;
     }
 
@@ -63,6 +78,8 @@ export class StreamUpdateComponent implements OnInit {
 
   async uploadFile(file: File) {
     this.isUploading = true;
+    this.abortController = new AbortController();
+    const signal = this.abortController.signal;
     try {
       // Step 1: Request backend to generate pre-signed URLs
       const presignedUrlsData = await this.backend
@@ -70,13 +87,17 @@ export class StreamUpdateComponent implements OnInit {
         .toPromise();  // Still using toPromise as per your request
 
       const { uploadId, presignedUrls } = presignedUrlsData;
+      this.uploadId = uploadId
       const uploadedParts = [];
       const totalParts = presignedUrls.length;
 
-      const chunkSize = 100 * 1024 * 1024;  // 5MB in bytes
+      const chunkSize = 100 * 1024 * 1024;  // 100MB in bytes
 
       // Step 2: Upload parts to S3
       for (let i = 0; i < totalParts; i++) {
+        if (signal.aborted) {
+          throw new Error('Upload aborted');
+        }
         const part = presignedUrls[i];
         const partNumber = part.partNumber;
         const url = part.presignedUrl;
@@ -106,18 +127,27 @@ export class StreamUpdateComponent implements OnInit {
       // Step 3: Complete the upload
       this.backend.completeUpload(uploadId, file.name, uploadedParts).subscribe({
         next: (res) => {
-          alert('File uploaded successfully to S3!');
+          this.toast.showToast("Movie Uploaded", true)
         },
         error: (err) => {
           console.error('Error uploading file:', err);
-          alert(err);
+          this.toast.showToast("Error while uploading", false)
         },
       });
     } catch (err) {
       console.error('Error uploading file:', err);
-      alert(err);
+      this.toast.showToast("Unable to Upload Movie", false)
     } finally {
       this.isUploading = false;
+    }
+  }
+
+  cancelUpload() {
+    if (this.isUploading && this.uploadId && this.file) {
+      this.backend.abortUpload(this.uploadId, this.file.name).subscribe({
+        next: (res) => { console.log(res), this.abortController?.abort(); },
+        error: (err) => console.log(err)
+      })
     }
   }
 

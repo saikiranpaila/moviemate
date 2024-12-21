@@ -32,4 +32,9 @@ export class BackendService {
     const body = { uploadId, fileName, parts };
     return this.http.post<any>(`${this.url}/api/v1/complete-upload`, body);
   }
+
+  abortUpload(uploadId: string, fileName: string): Observable<any> {
+    const body = { uploadId, fileName };
+    return this.http.post<any>(`${this.url}/api/v1/abort-upload`, body)
+  }
 }

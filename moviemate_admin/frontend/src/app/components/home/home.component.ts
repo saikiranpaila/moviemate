@@ -1,19 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
 import { Movie } from '../../models/Movies';
 import { StreamUpdateComponent } from '../stream-update/stream-update.component';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [StreamUpdateComponent],
+  imports: [StreamUpdateComponent, ToastComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
 export class HomeComponent implements OnInit {
   movies?: Movie[]
   movieControl!: MovieControl[]
+  @ViewChild('toast') toast!: ToastComponent;
   constructor(private router: Router, private backend: BackendService) {
   }
   ngOnInit() {
@@ -30,6 +32,7 @@ export class HomeComponent implements OnInit {
       },
       error: (err) => {
         console.log("error", err);
+        this.toast.showToast("Unable to load Movies", false);
       }
     });
   }

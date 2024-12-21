@@ -1,13 +1,14 @@
 import { NgClass } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms'
 import { BackendService } from '../../services/backend.service';
 import { Movie } from '../../models/Movies';
+import { ToastComponent } from '../toast/toast.component';
 
 @Component({
   selector: 'app-manage-movie',
   standalone: true,
-  imports: [ReactiveFormsModule, NgClass],
+  imports: [ReactiveFormsModule, NgClass, ToastComponent],
   templateUrl: './manage-movie.component.html',
   styleUrl: './manage-movie.component.scss'
 })
@@ -24,11 +25,7 @@ export class ManageMovieComponent {
 
   movieForm!: FormGroup;
 
-  toast = {
-    show: false,
-    message: '',
-    success: false,
-  }
+  @ViewChild('toast') toast!: ToastComponent;
 
   constructor(private backend: BackendService) { }
 
@@ -109,11 +106,11 @@ export class ManageMovieComponent {
       this.backend.newMovie(this.movieForm.value).subscribe({
         next: (res: Movie) => {
           console.log("successfully pushed ", res)
-          this.showToast("Movie Pushed", true)
+          this.toast.showToast("Movie Pushed", true)
         },
         error: (err: any) => {
           console.log("error ", err)
-          this.showToast("Unable to push Movie", false)
+          this.toast.showToast("Unable to push Movie", false)
         }
       })
     } else {
@@ -121,19 +118,4 @@ export class ManageMovieComponent {
     }
   }
 
-  showToast(message: string, success: boolean) {
-    this.toast.show = true;
-    this.toast.message = message
-    this.toast.success = success
-    setTimeout(() => {
-      this.toast.message = ''
-      this.hideToast();
-    }, 3000);
-  }
-
-  hideToast() {
-    this.toast.show = false;
-    this.toast.message = ''
-    this.toast.success = true
-  }
 }
