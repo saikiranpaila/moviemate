@@ -53,6 +53,10 @@ export class HomeComponent implements OnInit {
     )
   }
 
+  editMovie(index: number) {
+    this.router.navigate(['/manage'], { queryParams: { id: this.movieControl[index].movieID } })
+  }
+
   switchTrailer(i: number) {
     // Create a new array based on the current movieBool state
     this.movieControl = this.movieControl.map((item, index) => {

@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { BackendService } from '../../services/backend.service';
 import { Movie } from '../../models/Movies';
 import { ToastComponent } from '../toast/toast.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-manage-movie',
@@ -25,9 +26,13 @@ export class ManageMovieComponent {
 
   movieForm!: FormGroup;
 
+  movieId: string = ''
+  loading: boolean = true
+  editing: boolean = false
+
   @ViewChild('toast') toast!: ToastComponent;
 
-  constructor(private backend: BackendService) { }
+  constructor(private backend: BackendService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     // Initialize FormControls separately
@@ -72,6 +77,39 @@ export class ManageMovieComponent {
       // Convert the comma-separated string into an array
       this.movieGenres.setValue(this.convertGenresToArray(value), { emitEvent: false });
     });
+    this.movieForm.disable();
+    this.route.queryParams.subscribe(params => {
+      if (params['id']) {
+        this.movieId = params['id'];
+        this.editing = true
+        this.loading = true;
+        this.backend.getMovie(this.movieId).subscribe({
+          next: this.populateFields,
+          error: (err) => {
+            this.toast.showToast("Unable to find the movie", false)
+          }
+        })
+      }
+    })
+  }
+
+  populateFields(res: Movie) {
+    console.log(res);
+
+    // Populate form fields
+    this.movieTitle.setValue(res.title || '');
+    this.movieLang.setValue(res.lang || '');
+    this.movieRuntime.setValue(res.runtime || '');
+    this.movieOverview.setValue(res.overview || '');
+    this.movieGenres.setValue(res.genres || []);
+    this.movieReleaseDate.setValue(res.release_date || '');
+    this.movieRating.setValue(res.rating || '');
+    this.moviePoster.setValue(res.poster_path || '');
+    this.movieBackdrop.setValue(res.backdrop || '');
+
+    // Re-enable the form once the data is populated
+    this.movieForm.enable();
+    this.loading = false;
   }
 
   // Convert comma-separated genres into an array
