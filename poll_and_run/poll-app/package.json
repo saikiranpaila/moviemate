@@ -1,0 +1,21 @@
+{
+  "name": "poll-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "tsc-watch --onSuccess \"node ./dist/main.js\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.146",
+    "tsc-watch": "^6.2.1",
+    "typescript": "^5.7.2"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sqs": "^3.716.0",
+    "aws-sdk": "^2.1692.0"
+  }
+}

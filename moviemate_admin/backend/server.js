@@ -21,12 +21,12 @@ app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // AWS Configuration
-const REGION = 'us-east-1'; // E.g. 'us-east-1'
-const BUCKET_NAME = 'srcbucket-13122024';
+const REGION = 'us-east-1';
+const BUCKET_NAME = 'src.22122024.bucket';
 const s3Client = new S3Client({
   region: REGION,
   credentials: {
-    accessKeyId: 'AKIAXYKJVSPD3XOJWQAZ',  // Load AWS credentials from environment variables
+    accessKeyId: 'AKIAXYKJVSPD3XOJWQAZ',
     secretAccessKey: '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'
   }
 });
@@ -37,7 +37,7 @@ mongoose.connect(MONGO_URI)
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/<your-angular-project-name>/index.html'));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 

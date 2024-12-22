@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild, viewChild } 
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BackendService } from '../../services/backend.service';
 import { ToastComponent } from '../toast/toast.component';
+import { Movie } from '../../models/Movies';
 
 @Component({
   selector: 'app-stream-update',
@@ -13,28 +14,32 @@ import { ToastComponent } from '../toast/toast.component';
 export class StreamUpdateComponent implements OnInit {
 
   @Input({ alias: 'movieID', required: true }) movieID!: string
-  @Input({ alias: 'trailer', required: true }) trailer!: boolean
-  @Input({ alias: 'movie', required: true }) movie!: boolean
+  @Input({ alias: 'isTrailer', required: true }) isTrailer!: boolean
+  @Input({ alias: 'isMovie', required: true }) isMovie!: boolean
+  @Input({ alias: 'movie', required: true }) movie!: Movie
   @Input('toast') toast!: ToastComponent;
 
   @Output('back') back = new EventEmitter<boolean>();
   file: File | null = null;
+  fileName!: string;
   uploadId?: string;
   uploadProgress: number = 0;
   isUploading: boolean = false;
   abortController: AbortController | null = null;
 
-  trailerURLFormControl: FormControl = new FormControl('')
-  movieFormControl: FormControl = new FormControl('', Validators.required)
+  trailerURLFormControl!: FormControl
+  movieFormControl!: FormControl
   trailerURLFormGroup!: FormGroup
   movieFormGroup!: FormGroup
 
   constructor(private backend: BackendService) { }
 
   ngOnInit(): void {
+    this.trailerURLFormControl = new FormControl(this.movie.trailer)
     this.trailerURLFormGroup = new FormGroup({
       trailerURL: this.trailerURLFormControl
     })
+    this.movieFormControl = new FormControl('', Validators.required)
     this.movieFormGroup = new FormGroup({
       movie: this.movieFormControl
     })
@@ -48,8 +53,6 @@ export class StreamUpdateComponent implements OnInit {
   }
 
   updateTrailerURL() {
-    console.log("hello")
-    console.log(this.trailerURLFormGroup.value)
     this.backend.updateMovie({ id: this.movieID, trailer: this.trailerURLFormGroup.value.trailerURL }).subscribe({
       next: (res) => {
         this.toast.showToast("Trailer Updated", true)
@@ -84,8 +87,9 @@ export class StreamUpdateComponent implements OnInit {
     const signal = this.abortController.signal;
     try {
       // Step 1: Request backend to generate pre-signed URLs
+      this.fileName = `${this.movieID}/${file.name}`
       const presignedUrlsData = await this.backend
-        .generatePresignedUrls(file.name, file.type, file.size)
+        .generatePresignedUrls(this.fileName, file.type, file.size)
         .toPromise();  // Still using toPromise as per your request
 
       const { uploadId, presignedUrls } = presignedUrlsData;
@@ -122,12 +126,12 @@ export class StreamUpdateComponent implements OnInit {
           // Update progress after each part is uploaded
           this.uploadProgress = Math.floor(((i + 1) / totalParts) * 100);
         } else {
-          throw new Error(`Failed to upload part ${partNumber}`);
+          throw new Error(`Failed to upload part ${partNumber} `);
         }
       }
 
       // Step 3: Complete the upload
-      this.backend.completeUpload(uploadId, file.name, uploadedParts).subscribe({
+      this.backend.completeUpload(uploadId, this.fileName, uploadedParts).subscribe({
         next: (res) => {
           this.toast.showToast("Movie Uploaded", true)
         },
@@ -146,9 +150,9 @@ export class StreamUpdateComponent implements OnInit {
 
   cancelUpload() {
     if (this.isUploading && this.uploadId && this.file) {
-      this.backend.abortUpload(this.uploadId, this.file.name).subscribe({
+      this.backend.abortUpload(this.uploadId, this.fileName).subscribe({
         next: (res) => { console.log(res), this.abortController?.abort(); this.toast.showToast("Upload aborted", true) },
-        error: (err) => {console.log(err), this.toast.showToast("Failed to abort upload", false) }
+        error: (err) => { console.log(err), this.toast.showToast("Failed to abort upload", false) }
       })
     }
   }

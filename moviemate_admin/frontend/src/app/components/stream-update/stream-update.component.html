@@ -1,8 +1,8 @@
-@if(trailer) {
+@if(isTrailer) {
 <form [formGroup]="trailerURLFormGroup" (ngSubmit)="updateTrailerURL()">
     <div class="form-floating mb-3">
-        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com" [value]="trailer"
-            [formControl]="trailerURLFormControl">
+        <input type="text" class="form-control" id="floatingInput" placeholder="name@example.com"
+            [value]="movie.trailer" [formControl]="trailerURLFormControl">
         <label for="floatingInput">Trailer Link</label>
     </div>
     <div class="col" style="display: flex; justify-content: flex-end;">
@@ -11,7 +11,7 @@
     </div>
 </form>
 }
-@if(movie) {
+@if(isMovie) {
 <div class="mb-3">
     <label for="formFile" class="form-label">Default file input example</label>
     <input class="form-control" type="file" id="formFile" accept=".mp4" (change)="onFileSelect($event)">
