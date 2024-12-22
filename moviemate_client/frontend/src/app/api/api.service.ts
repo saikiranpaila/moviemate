@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { Movie, MoviesResponse } from '../models/Movies';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +12,7 @@ export class ApiService {
   private apiUrl = 'https://api.themoviedb.org/3';
   private apiKey = 'dd4d819639705d332d531217b4f7c6b6';
   private language = 'en-US';
-
-  private apiurl = "http://localhost:3000/api/v1";
+  private apiurl = environment.apiUrl+"/api/v1";
 
   constructor(private http: HttpClient) { }
 

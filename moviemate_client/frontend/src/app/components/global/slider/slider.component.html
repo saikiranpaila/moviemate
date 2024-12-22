@@ -25,7 +25,7 @@
             {{ hero.overview | truncate }}
           </div>
           <button *ngIf="hero.trailer" type="button" class="button button--icon trailer"
-            (click)="openTrailer(hero.trailer, hero.title, hero.poster_path)">
+            (click)="openTrailer(hero.trailer, hero.title, hero.backdrop)">
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
                 <path
@@ -35,7 +35,7 @@
             <span class="txt">Play Trailer</span>
           </button>
           <button *ngIf="hero.movie" type="button" class="button button--icon movie"
-            (click)="openMovie(hero.movie, hero.title, hero.poster_path)">
+            (click)="openMovie(hero.movie, hero.title, hero.backdrop)">
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
@@ -114,7 +114,7 @@
         </div>
         <div class="play-buttons">
           <button *ngIf="data.result[0].trailer" type="button" class="button button--icon trailer"
-            (click)="openTrailer(data.result[0].trailer, data.result[0].title, data.result[0].poster_path)">
+            (click)="openTrailer(data.result[0].trailer, data.result[0].title, data.result[0].backdrop)">
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#fff">
                 <path
@@ -124,7 +124,7 @@
             <span class="txt">Play Trailer</span>
           </button>
           <button *ngIf="data.result[0].movie" type="button" class="button button--icon movie"
-            (click)="openMovie(data.result[0].movie, data.result[0].title, data.result[0].poster_path)">
+            (click)="openMovie(data.result[0].movie, data.result[0].title, data.result[0].backdrop)">
             <span class="icon">
               <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px"
                 fill="#5f6368">
