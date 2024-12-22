@@ -1,21 +1,23 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { BackendService } from '../../services/backend.service';
 import { Movie } from '../../models/Movies';
 import { StreamUpdateComponent } from '../stream-update/stream-update.component';
 import { ToastComponent } from '../toast/toast.component';
+import { ModalComponent } from '../modal/modal.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [StreamUpdateComponent, ToastComponent],
+  imports: [StreamUpdateComponent, ToastComponent, ModalComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.scss'
+  styleUrl: './home.component.scss',
 })
 export class HomeComponent implements OnInit {
   movies!: Movie[]
   movieControl!: MovieControl[]
   @ViewChild('toast') toast!: ToastComponent;
+  @ViewChild('modal') modal!: ModalComponent;
   constructor(private router: Router, private backend: BackendService) {
   }
   ngOnInit() {

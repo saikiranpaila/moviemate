@@ -21,7 +21,7 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-// app.post(`/${API_PATH}/${API_VERSION}/movie`, async (req, res) => {
+// app.post(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
 //     try {
 //         const movieData = req.body;
 //         const uuid = uuidv4();

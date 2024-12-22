@@ -109,7 +109,7 @@ export class ManageMovieComponent implements AfterViewInit {
   formatDate(inputDate: string) {
     if (inputDate == '') return ''
     // Split the input date string by "/"
-    const [month, day, year] = inputDate.split('/');
+    const [day, month, year] = inputDate.split('/');
 
     // Pad day and month to ensure they are two digits
     const formattedDay = day.padStart(2, '0');
@@ -147,17 +147,29 @@ export class ManageMovieComponent implements AfterViewInit {
   onSubmit() {
     if (this.movieForm.valid) {
       this.movieForm.value.genres = this.movieForm.value.genres.map((genre: string) => genre.trim());
-      console.log(this.movieForm.value);
-      this.backend.newMovie(this.movieForm.value).subscribe({
-        next: (res: Movie) => {
-          console.log("successfully pushed ", res)
-          this.toast.showToast("Movie Pushed", true)
-        },
-        error: (err: any) => {
-          console.log("error ", err)
-          this.toast.showToast("Unable to push Movie", false)
-        }
-      })
+      if (!this.editing) {
+        this.backend.newMovie(this.movieForm.value).subscribe({
+          next: (res: Movie) => {
+            console.log("successfully pushed ", res)
+            this.toast.showToast("Movie Pushed", true)
+          },
+          error: (err: any) => {
+            console.log("error ", err)
+            this.toast.showToast("Unable to push Movie", false)
+          }
+        })
+      } else {
+        const movie = this.movieForm.value
+        movie.id = this.movieId
+        this.backend.updateMovie(movie).subscribe({
+          next: (res: Movie) => {
+            this.toast.showToast("Movie Updated", true)
+          },
+          error: (err) => {
+            this.toast.showToast("Unable to update Movie", false)
+          }
+        })
+      }
     } else {
       console.log('Form is invalid');
     }

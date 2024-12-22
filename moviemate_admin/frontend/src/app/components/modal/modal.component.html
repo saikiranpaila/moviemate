@@ -1,5 +1,6 @@
-<div *ngIf="isVisible" class="modal-backdrop" (click)="closeModal()"></div>
-<div *ngIf="isVisible" class="modal-content">
+@if(isVisible) {
+<div class="modal-backdrop" (click)="closeModal()"></div>
+<div class="modal-content">
     <media-player [title]="title" [src]="videoUrl" autoplay [canSetVolume]="true">
         <media-provider>
             <media-poster class="vds-poster" [src]="posterUrl"></media-poster>
@@ -8,3 +9,4 @@
     </media-player>
     <button (click)="closeModal()" class="close-button">X</button>
 </div>
+}

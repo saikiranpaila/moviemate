@@ -26,8 +26,22 @@
                         <div class="container-fluid p-0">
                             @if(movieControl[i].main) {
                             <p class="card-text m-0">Status: {{movie.status}}</p>
-                            <p class="card-text m-0">Trailer: {{'Avaliable'}}</p>
-                            <p class="card-text m-0">Movie: {{'Avaliable'}}</p>
+                            @if(movie.trailer) {
+                            <p class="card-text m-0">Trailer: <span class="text-primary">Avaliable (<a
+                                        style="cursor: pointer;"
+                                        (click)="modal.openModal(movie.trailer, movie.title+' (Trailer)'||'', movie.backdrop)">view</a>)</span>
+                            </p>
+                            } @else {
+                            <p class="card-text m-0">Trailer: <span class="text-danger">Not Avaliable</span></p>
+                            }
+                            @if(movie.movie) {
+                            <p class="card-text m-0">Movie: <span class="text-primary">Avaliable (<a
+                                        style="cursor: pointer;"
+                                        (click)="modal.openModal(movie.movie, movie.title||'', movie.backdrop)">view</a>)</span>
+                            </p>
+                            }@else {
+                            <p class="card-text m-0">Movie: <span class="text-danger">Not Avaliable</span></p>
+                            }
                             <p class="card-text m-0">Processing: {{'Avaliable'}}</p>
                             <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
                             <div class="conatiner m-3">
@@ -41,13 +55,16 @@
                                 </div>
                             </div>
                             <div class="conatiner d-flex justify-content-end gap-2">
-                                <button type="button" class="btn btn-outline-secondary" (click)="refresh(i)">Refresh</button>
-                                <button type="button" class="btn btn-outline-danger" (click)="editMovie(i)">Edit</button>
+                                <button type="button" class="btn btn-outline-secondary"
+                                    (click)="refresh(i)">Refresh</button>
+                                <button type="button" class="btn btn-outline-danger"
+                                    (click)="editMovie(i)">Edit</button>
                             </div>
                             }
                             @else {
                             <app-stream-update [movieID]="movie.id" [movie]="movieControl[i].movie"
-                                [trailer]="movieControl[i].trailer" [toast]="toast" (back)="backHome(i)"></app-stream-update>
+                                [trailer]="movieControl[i].trailer" [toast]="toast"
+                                (back)="backHome(i)"></app-stream-update>
                             }
                         </div>
                     </div>
@@ -64,5 +81,5 @@
     </div>
 </div>
 }
-
+<app-modal #modal></app-modal>
 <app-toast #toast></app-toast>

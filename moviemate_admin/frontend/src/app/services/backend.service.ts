@@ -18,7 +18,7 @@ export class BackendService {
     return this.http.get<Movie>(url);
   }
   newMovie(body: any) {
-    const url = `${this.url}/api/v1/movie`
+    const url = `${this.url}/api/v1/movies`
     return this.http.post<Movie>(url, body);
   }
   updateMovie(movie: Movie) {
