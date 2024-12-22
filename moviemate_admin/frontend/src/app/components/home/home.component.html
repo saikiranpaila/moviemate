@@ -48,9 +48,9 @@
                                 <div class="row">
                                     <div class="btn-group p-0" role="group" aria-label="Basic outlined example">
                                         <button type="button" class="btn btn-outline-secondary"
-                                            (click)="switchTrailer(i)">Add Trailer URL</button>
-                                        <button type="button" class="btn btn-outline-primary"
-                                            (click)="switchMovie(i)">Upload Movie</button>
+                                            (click)="switchTrailer(i)">Attach Trailer</button>
+                                        <button type="button" class="btn btn-outline-primary" (click)="switchMovie(i)"
+                                            [disabled]="movie.movie">Upload Movie</button>
                                     </div>
                                 </div>
                             </div>

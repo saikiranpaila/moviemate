@@ -31,7 +31,7 @@ export class ManageMovieComponent implements AfterViewInit {
 
   @ViewChild('toast') toast!: ToastComponent;
 
-  constructor(private backend: BackendService, private route: ActivatedRoute) { }
+  constructor(private backend: BackendService, private activatedRoute: ActivatedRoute, private router: Router) { }
 
   ngOnInit(): void {
     // Initialize FormControls separately
@@ -79,7 +79,7 @@ export class ManageMovieComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.activatedRoute.queryParams.subscribe(params => {
       if (params['id']) {
         this.movieForm.disable()
         this.movieId = params['id'];
@@ -173,6 +173,10 @@ export class ManageMovieComponent implements AfterViewInit {
     } else {
       console.log('Form is invalid');
     }
+  }
+
+  home() {
+    this.router.navigate(['/'])
   }
 
 }
