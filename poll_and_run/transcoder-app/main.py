@@ -20,16 +20,16 @@ import subprocess
 #     {'$set': new_field}  # Add the new field
 # )
 
-# AWS S3 client
-s3 = boto3.client('s3',
-                  aws_access_key_id='AKIAXYKJVSPDW6WFRLW2',
-                  aws_secret_access_key='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',
-                  region_name='us-east-1')
-
 # Environment variables
-SOURCE_BUCKET = 'src.22122024.bucket'
-TARGET_BUCKET = 'dest.22122024.bucket'
-TEMP_DIR = r"\tmp"
+AWS_REGION = os.getenv("AWS_REGION") if os.getenv("AWS_REGION") else "us-east-1"
+SOURCE_BUCKET = os.getenv("SOURCE_BUCKET") if os.getenv("SOURCE_BUCKET") else 'src.22122024.bucket'
+TARGET_BUCKET = os.getenv("TARGET_BUCKET") if os.getenv("TARGET_BUCKET") else 'dest.22122024.bucket'
+SOURCE_KEY=os.getenv("SOURCE_KEY") if os.getenv("SOURCE_KEY") else 'f3a02cef4b63dc17b99ce4a01b5098fe/input.mp4'
+
+# AWS S3 client
+s3 = boto3.client('s3', region_name=AWS_REGION)
+
+TEMP_DIR = "/tmp"
 
 # Define resolutions and bitrates
 RESOLUTIONS = [
@@ -92,8 +92,10 @@ def process_hls(input_file, hls_output_dir):
         print(f"Error processing HLS: {e}")
 
 def main():
-    source_key = "input.mp4"
-    local_file = os.path.join(TEMP_DIR, "input.mp4")
+    source_key = SOURCE_KEY
+    movie_id = source_key.split('/')[0]
+    file_name = source_key.split('/')[1]
+    local_file = os.path.join(TEMP_DIR, file_name)
     hls_output_dir = os.path.join(TEMP_DIR, "hls_output")
 
     try:
@@ -107,7 +109,7 @@ def main():
         for root, _, files in os.walk(hls_output_dir):
             for file in files:
                 local_path = os.path.join(root, file)
-                s3_key = f"hls_output/{file}"
+                s3_key = f"{movie_id}/{file}"
                 upload_file(TARGET_BUCKET, local_path, s3_key)
 
         print("Adaptive bitrate HLS processing completed!")
