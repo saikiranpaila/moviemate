@@ -4,6 +4,7 @@ const cors = require('cors');
 const { S3Client, CreateMultipartUploadCommand, UploadPartCommand, CompleteMultipartUploadCommand, AbortMultipartUploadCommand } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { v4: uuidv4 } = require('uuid');
+const path = require('path');
 const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const Movie = require('./models/Movie');
@@ -17,6 +18,7 @@ const port = 3000;
 app.use(cors());
 // Middleware to parse JSON bodies
 app.use(bodyParser.json());
+app.use(express.static(path.join(__dirname, 'public')));
 
 // AWS Configuration
 const REGION = 'us-east-1'; // E.g. 'us-east-1'
@@ -33,6 +35,11 @@ const s3Client = new S3Client({
 mongoose.connect(MONGO_URI)
   .then(() => console.log('Connected to MongoDB'))
   .catch((error) => console.error('Error connecting to MongoDB:', error));
+
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/<your-angular-project-name>/index.html'));
+});
+
 
 app.post(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
   try {

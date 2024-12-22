@@ -2,13 +2,16 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Movie, MoviesResponse } from '../models/Movies';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BackendService {
-  readonly url = 'http://localhost:3000'
-  constructor(public http: HttpClient) { }
+  readonly url = environment.apiUrl
+  constructor(public http: HttpClient) {
+    console.log(this.url)
+  }
   getMovies() {
     const url = `${this.url}/api/v1/movies`
     return this.http.get<MoviesResponse>(url);
