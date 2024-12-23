@@ -25,7 +25,7 @@
                         <h5 class="card-title">{{movie.title}}</h5>
                         <div class="container-fluid p-0">
                             @if(movieControl[i].main) {
-                            <p class="card-text m-0">Status: {{movie.status}}</p>
+                            <!-- <p class="card-text m-0">Status: {{movie.status}}</p> -->
                             @if(movie.trailer) {
                             <p class="card-text m-0">Trailer: <span class="text-primary">Avaliable (<a
                                         style="cursor: pointer;"
@@ -42,7 +42,7 @@
                             }@else {
                             <p class="card-text m-0">Movie: <span class="text-danger">Not Avaliable</span></p>
                             }
-                            <p class="card-text m-0">Processing: {{'Avaliable'}}</p>
+                            <p class="card-text m-0">Status: <span [ngClass]="{'text-danger': movie.status_type == 'danger', 'text-primary': movie.status_type=='info', 'text-success': movie.status_type=='success'}">{{movie.status}}</span></p>
                             <!-- <p class="card-text"><small class="text-body-secondary">Last updated 3 mins ago</small></p> -->
                             <div class="conatiner m-3">
                                 <div class="row">

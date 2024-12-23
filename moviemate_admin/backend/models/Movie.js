@@ -17,7 +17,8 @@ const movieSchema = new mongoose.Schema({
     trailer: String,
     movie: String,
     processing: Boolean,
-    status: String
+    status: String,
+    status_type: String
 });
 
 // Create an index on the 'id' field

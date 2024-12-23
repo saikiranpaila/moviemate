@@ -13,6 +13,7 @@ export interface Movie {
   movie: string;           // movie is optional
   processing: boolean;     // processing is optional and a boolean
   status: string;          // status is optional
+  status_type: string;
 }
 
 export interface MoviesResponse {

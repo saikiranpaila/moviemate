@@ -14,6 +14,7 @@ class MovieResponse {
         this.movie = movieData.movie || '';  // Default empty string if not available
         this.processing = movieData.processing || false;  // Default false if not available
         this.status = movieData.status || '';  // Default empty string if not available
+        this.status_type = movieData.status_type || '';
     }
 
     // Example of method that can add additional logic or formatting
@@ -37,7 +38,8 @@ class MovieResponse {
             trailer: this.trailer,
             movie: this.movie,
             processing: this.processing,
-            status: this.status
+            status: this.status,
+            status_type: this.status_type
         };
     }
 }

@@ -5,11 +5,12 @@ import { Movie } from '../../models/Movies';
 import { StreamUpdateComponent } from '../stream-update/stream-update.component';
 import { ToastComponent } from '../toast/toast.component';
 import { ModalComponent } from '../modal/modal.component';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [StreamUpdateComponent, ToastComponent, ModalComponent],
+  imports: [StreamUpdateComponent, ToastComponent, ModalComponent, NgClass],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })
