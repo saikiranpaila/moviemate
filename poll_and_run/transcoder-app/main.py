@@ -6,12 +6,12 @@ from pymongo import MongoClient
 from enum import Enum
 
 # Environment variables
-AWS_REGION = os.getenv("AWS_REGION") if os.getenv("AWS_REGION") else "us-east-1"
-SOURCE_BUCKET = os.getenv("SOURCE_BUCKET") if os.getenv("SOURCE_BUCKET") else 'src.22122024.bucket'
-TARGET_BUCKET = os.getenv("TARGET_BUCKET") if os.getenv("TARGET_BUCKET") else 'dest.22122024.bucket'
-SOURCE_KEY = os.getenv("SOURCE_KEY") if os.getenv("SOURCE_KEY") else 'f3a02cef4b63dc17b99ce4a01b5098fe/input.mp4'
-DATABASE_URI = os.getenv("DATABASE_URI") if os.getenv("DATABASE_URI") else 'mongodb://localhost:27017/'
-MOVIE_ID = os.getenv("MOVIE_ID") if os.getenv("MOVIE_ID") else "f3a02cef4b63dc17b99ce4a01b5098fe"
+AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
+SOURCE_BUCKET = os.getenv("SOURCE_BUCKET", "src.22122024.bucket")
+TARGET_BUCKET = os.getenv("TARGET_BUCKET", "dest.22122024.bucket")
+SOURCE_KEY = os.getenv("SOURCE_KEY", "f3a02cef4b63dc17b99ce4a01b5098fe/input.mp4")
+DATABASE_URI = os.getenv("DATABASE_URI", "mongodb://localhost:27017/")
+MOVIE_ID = SOURCE_KEY.rsplit('/')[0]
 
 # Connect to the MongoDB server (local MongoDB instance)
 client = MongoClient(DATABASE_URI)
@@ -19,9 +19,6 @@ client = MongoClient(DATABASE_URI)
 # Select the database and collection
 db = client['moviemate_test']
 collection = db['movies']
-
-# Define the document's ID and the new field to add
-MOVIE_ID = "f3a02cef4b63dc17b99ce4a01b5098fe"
 
 class STATUS_TYPE(Enum):
     SAFE = "success"

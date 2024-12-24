@@ -15,6 +15,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
+    "@aws-sdk/client-ecs": "^3.716.0",
     "@aws-sdk/client-sqs": "^3.716.0",
     "aws-sdk": "^2.1692.0"
   }
