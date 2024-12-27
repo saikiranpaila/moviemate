@@ -1,0 +1,36 @@
+<div class="container-fluid mt-5">
+    <div class="card" style="max-width: 450px; margin-left: auto; margin-right: auto;">
+        <div class="card-body">
+            <h5 class="card-title" style="text-align: center;">Admin Login</h5>
+            <form [formGroup]="userForm" (ngSubmit)="login()">
+                <div class="container">
+                    <div class="form-floating mb-3 mt-3">
+                        <input required type="text" class="form-control" id="floatingInput" placeholder="Username"
+                            [ngClass]="{'is-invalid': userNameControl.invalid && userNameControl.touched}"
+                            [formControl]="userNameControl">
+                        <label for="floatingInput">Username</label>
+                        <div class="invalid-feedback">
+                            Username cannot be empty
+                        </div>
+                    </div>
+                    <div class="form-floating">
+                        <input required type="password" class="form-control" id="floatingPassword"
+                            placeholder="Password"
+                            [ngClass]="{'is-invalid': passwordControl.invalid && passwordControl.touched}"
+                            [formControl]="passwordControl">
+                        <label for="floatingPassword">Password</label>
+                        <div class="invalid-feedback">
+                            Password cannot be empty
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary m-3 mb-1" [disabled]="!userForm.valid"
+                            style="width: 200px !important;">Login</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<app-toast #toast></app-toast>

@@ -1,6 +1,9 @@
 <nav class="navbar navbar-dark bg-dark">
     <div class="container">
         <a class="navbar-brand" routerLink="/">MovieMate <span class="text-secondary">Admin</span></a>
+        @if(tokenService.getToken()){
+        <a class="navbar-brand" routerLink="/login" (click)="logout()">Logout</a>
+        }
     </div>
 </nav>
 <router-outlet></router-outlet>

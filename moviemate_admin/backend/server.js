@@ -6,11 +6,15 @@ const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const { v4: uuidv4 } = require('uuid');
 const path = require('path');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
 const bodyParser = require('body-parser');
 const Movie = require('./models/Movie');
 const MovieResponse = require('./utils/MovieResponse');
-const { API_VERSION, API_PATH, MONGO_URI, REGION, SOURCE_BUCKET } = require('./config/config');
+const { API_VERSION, API_PATH, MONGO_URI, REGION, SOURCE_BUCKET, JWT_SECRET_KEY, ADMIN_USER_ID, ADMIN_PASSWORD } = require('./config/config');
 const Paged = require('./utils/Paged');
+const authenticateJWT = require('./middleware/auth');
+const User = require('./models/User');
 
 const app = express();
 const port = 3000;
@@ -26,15 +30,72 @@ const s3Client = new S3Client({
 
 // Connect to MongoDB
 mongoose.connect(MONGO_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(async () => {
+    console.log('Connected to MongoDB');
+
+    // Create a new user
+    const username = ADMIN_USER_ID; // Replace with the desired username
+    const password = ADMIN_PASSWORD; // Replace with the desired password
+
+    const user = await User.findOne({ username });
+
+    if (user) {
+      console.log("Admin user already exits");
+    } else {
+      // Hash the password before saving
+      const salt = await bcrypt.genSalt(10);
+      const hashedPassword = await bcrypt.hash(password, salt);
+
+      // Create a new User document
+      const newUser = new User({
+        username,
+        password: hashedPassword
+      });
+
+      // Save the user to the database
+      await newUser.save();
+
+      console.log(`Admin user created successfully`);
+    }
+  })
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
+app.post(`/${API_PATH}/${API_VERSION}/login`, async (req, res) => {
+  const { username, password } = req.body;
+  console.log(username, password)
+  try {
+    // Find the user by username/email
+    const user = await User.findOne({ username });
 
-app.post(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
+    if (!user) {
+      return res.status(400).json({ message: 'Invalid username or password' });
+    }
+
+    // Compare the password (assuming password is hashed)
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(400).json({ message: 'Invalid username or password' });
+    }
+
+    // Generate a JWT token
+    const token = jwt.sign({ username: username }, `${JWT_SECRET_KEY}`, { expiresIn: '12h' });
+
+
+    // Send the token as response
+    res.status(200).json({ token });
+
+  } catch (error) {
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+
+app.post(`/${API_PATH}/${API_VERSION}/movies`, authenticateJWT, async (req, res) => {
   try {
     const movieData = req.body;
     const uuid = uuidv4();
@@ -48,7 +109,7 @@ app.post(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
   }
 });
 
-app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
+app.get(`/${API_PATH}/${API_VERSION}/movies`, authenticateJWT, async (req, res) => {
   try {
     const page = req.query.page || 1;
     const perPage = req.query.perPage || 10;
@@ -63,7 +124,7 @@ app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
   }
 });
 
-app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
+app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, authenticateJWT, async (req, res) => {
   try {
     const { id } = req.params; // Get the custom ID from the URL parameter
 
@@ -84,7 +145,7 @@ app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
 
 
 // Route to get a movie by ID
-app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, authenticateJWT, async (req, res) => {
   try {
     // Extract the fields from the request body
     const updateData = req.body;
@@ -114,7 +175,7 @@ app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
 });
 
 // Route to generate pre-signed URLs
-app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, authenticateJWT, async (req, res) => {
   const { fileName, fileType, fileSize } = req.body;
 
   try {
@@ -157,7 +218,7 @@ app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, async (req, res)
 });
 
 // Route to complete the multipart upload
-app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, authenticateJWT, async (req, res) => {
   const { uploadId, fileName, parts } = req.body;
 
   try {
@@ -185,7 +246,7 @@ app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, async (req, res) => {
 });
 
 // Route to abort the multipart upload 
-app.post(`/${API_PATH}/${API_VERSION}/abort-upload`, async (req, res) => {
+app.post(`/${API_PATH}/${API_VERSION}/abort-upload`, authenticateJWT, async (req, res) => {
   const { uploadId, fileName } = req.body;
 
   try {
