@@ -21,7 +21,7 @@ mongoose.connect(MONGO_URI)
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '../dist/<your-angular-project-name>/index.html'));
+    res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
@@ -61,5 +61,5 @@ app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
 
 // Start the server
 app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
+    console.log(`Server running on port: ${port}`);
 });

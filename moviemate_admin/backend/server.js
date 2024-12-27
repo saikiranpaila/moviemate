@@ -9,7 +9,7 @@ const crypto = require('crypto');
 const bodyParser = require('body-parser');
 const Movie = require('./models/Movie');
 const MovieResponse = require('./utils/MovieResponse');
-const { API_VERSION, API_PATH, MONGO_URI } = require('./config/config');
+const { API_VERSION, API_PATH, MONGO_URI, REGION, SOURCE_BUCKET } = require('./config/config');
 const Paged = require('./utils/Paged');
 
 const app = express();
@@ -20,15 +20,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// AWS Configuration
-const REGION = 'us-east-1';
-const BUCKET_NAME = 'src.22122024.bucket';
 const s3Client = new S3Client({
-  region: REGION,
-  credentials: {
-    accessKeyId: 'AKIAXYKJVSPD3XOJWQAZ',
-    secretAccessKey: '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'
-  }
+  region: REGION
 });
 
 // Connect to MongoDB
@@ -127,7 +120,7 @@ app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, async (req, res)
   try {
     // Step 1: Create a multipart upload
     const createMultipartUploadParams = {
-      Bucket: BUCKET_NAME,
+      Bucket: SOURCE_BUCKET,
       Key: fileName,
       ContentType: fileType,
     };
@@ -142,7 +135,7 @@ app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, async (req, res)
 
     for (let partNumber = 1; partNumber <= parts; partNumber++) {
       const uploadPartParams = {
-        Bucket: BUCKET_NAME,
+        Bucket: SOURCE_BUCKET,
         Key: fileName,
         PartNumber: partNumber,
         UploadId: uploadId,
@@ -170,7 +163,7 @@ app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, async (req, res) => {
   try {
     // Step 3: Complete the multipart upload
     const completeParams = {
-      Bucket: BUCKET_NAME,
+      Bucket: SOURCE_BUCKET,
       Key: fileName,
       UploadId: uploadId,
       MultipartUpload: {
@@ -197,7 +190,7 @@ app.post(`/${API_PATH}/${API_VERSION}/abort-upload`, async (req, res) => {
 
   try {
     const abortParams = {
-      Bucket: BUCKET_NAME,
+      Bucket: SOURCE_BUCKET,
       Key: fileName,
       UploadId: uploadId,
     };

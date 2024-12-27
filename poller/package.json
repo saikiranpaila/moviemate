@@ -11,12 +11,15 @@
   "description": "",
   "devDependencies": {
     "@types/aws-lambda": "^8.10.146",
+    "@types/node": "^22.10.2",
     "tsc-watch": "^6.2.1",
     "typescript": "^5.7.2"
   },
   "dependencies": {
     "@aws-sdk/client-ecs": "^3.716.0",
     "@aws-sdk/client-sqs": "^3.716.0",
-    "aws-sdk": "^2.1692.0"
+    "@types/mongoose": "^5.11.97",
+    "aws-sdk": "^2.1692.0",
+    "mongoose": "^8.9.2"
   }
 }

@@ -4,7 +4,6 @@ ENV AWS_REGION=us-east-1
 ENV SOURCE_BUCKET=src.22122024.bucket
 ENV TARGET_BUCKET=dest.22122024.bucket
 ENV SOURCE_KEY=f3a02cef4b63dc17b99ce4a01b5098fe/input.mp4
-ENV DATABASE_URI=mongodb://localhost:27017/
 ENV MOVIE_ID=f3a02cef4b63dc17b99ce4a01b5098fe
 
 # Install dependencies and FFmpeg
