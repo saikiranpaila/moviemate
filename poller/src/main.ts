@@ -22,7 +22,7 @@ async function receiveMessages(): Promise<void> {
     const params = {
         QueueUrl: QUEUE_URL, // URL of the SQS queue
         MaxNumberOfMessages: 2, // Maximum messages to retrieve (1-10)
-        WaitTimeSeconds: 2, // Long polling time (up to 20 seconds)
+        WaitTimeSeconds: 20, // Long polling time (up to 20 seconds)
     };
 
     try {

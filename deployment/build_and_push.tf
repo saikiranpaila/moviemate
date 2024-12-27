@@ -3,27 +3,27 @@
 locals {
   images = {
     "moviemate_client" = {
-      context = "./../../moviemate_client/"
+      context = "./../moviemate_client/"
       tag     = aws_ecr_repository.moviemate_client_repository.repository_url
     },
     "moviemate_admin" = {
-      context = "./../../moviemate_admin/"
+      context = "./../moviemate_admin/"
       tag     = aws_ecr_repository.moviemate_admin_repository.repository_url
     },
     "moviemate_database" = {
-      context = "./../../database/"
+      context = "./../database/"
       tag     = aws_ecr_repository.moviemate_database_repository.repository_url
     },
     "moviemate_poller" = {
-      context = "./../../poller/"
+      context = "./../poller/"
       tag     = aws_ecr_repository.moviemate_poller_repository.repository_url
     },
     "moviemate_startup" = {
-      context = "./../../startup/"
+      context = "./../startup/"
       tag     = aws_ecr_repository.moviemate_startup_repository.repository_url
     },
     "moviemate_transcoder" = {
-      context = "./../../transcoder/"
+      context = "./../transcoder/"
       tag     = aws_ecr_repository.moviemate_transcoder_repository.repository_url
     }
   }
