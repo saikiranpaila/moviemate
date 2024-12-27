@@ -21,8 +21,8 @@ const movieSchema = new mongoose.Schema({
     status_type: String
 });
 
-// Create an index on the 'id' field
-movieSchema.index({ id: 1 });
+// Create an index on the 'id' and title field
+movieSchema.index({ id: 1, title: 1 });
 
 // Create the model from the schema
 const Movie = mongoose.model('Movie', movieSchema);

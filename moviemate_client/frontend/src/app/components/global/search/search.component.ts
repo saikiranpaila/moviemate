@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../api/api.service';
+import { Movie } from '../../../models/Movies';
 
 
 @Component({
@@ -9,7 +10,7 @@ import { ApiService } from '../../../api/api.service';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  searchResults: any[] = [];
+  searchResults: Movie[] = [];
   query: string = '';
 
   constructor(
@@ -27,24 +28,11 @@ export class SearchComponent implements OnInit {
   }
 
   performSearch(query: string): void {
-    this.apiService.search(query, 1).subscribe(
-      (response: any) => {
-        this.searchResults = response.results.map((item: any) => {
-          return {
-            link: item.media_type === 'movie' ? `/movie/${item.id}` : item.media_type === 'tv' ? `/tv/${item.id}` : `/person/${item.id}`,
-            imgSrc: item.poster_path ? `https://image.tmdb.org/t/p/w370_and_h556_bestv2${item.poster_path}` : '',
-            title: item.title || item.name,
-            rating: item.vote_average ? item.vote_average * 10 : 'N/A',
-            vote: item.vote_average ? item.vote_average : 'N/A',
-            poster_path: item.poster_path
-          };
-        });
-      },
-      error => {
-        console.error('Search failed', error);
-      }
-    );
+    this.apiService.searchMovie(query).subscribe({
+      next: (res: Movie[]) => { this.searchResults = res, console.log(res) },
+      error: (err) => console.log("Unable to perform search")
+    })
   }
-  
+
 }
 

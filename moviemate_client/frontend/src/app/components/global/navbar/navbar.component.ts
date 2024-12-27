@@ -12,7 +12,7 @@ export class NavbarComponent {
 
   @ViewChild('input') inputElement!: ElementRef;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   ngAfterViewInit(): void {
     if (this.searchVisible && this.inputElement) {
@@ -40,15 +40,14 @@ export class NavbarComponent {
   closeSearch(): void {
     this.searchVisible = false;
     this.query = '';
-    this.router.navigate(['/']); 
   }
 
-  
+
 
   goToRoute(): void {
     if (this.query.trim()) {
       this.router.navigate(['/search'], { queryParams: { query: this.query } });
-    }else{
+    } else {
       this.router.navigate(['/']);
     }
   }

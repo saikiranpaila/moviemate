@@ -12,7 +12,7 @@ export class ApiService {
   private apiUrl = 'https://api.themoviedb.org/3';
   private apiKey = 'dd4d819639705d332d531217b4f7c6b6';
   private language = 'en-US';
-  private apiurl = environment.apiUrl+"/api/v1";
+  private apiurl = environment.apiUrl + "/api/v1";
 
   constructor(private http: HttpClient) { }
 
@@ -24,6 +24,11 @@ export class ApiService {
   getMovieInfo(id: string) {
     const url = `${this.apiurl}/movies/${id}`;
     return this.http.get<Movie>(url);
+  }
+
+  searchMovie(pattern: string) {
+    const url = `${this.apiurl}/search?pattern=${pattern}`
+    return this.http.get<Movie[]>(url);
   }
 
   getNowPlaying(mediaType: string, page: number): Observable<any> {

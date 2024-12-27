@@ -39,6 +39,16 @@ app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
     }
 });
 
+app.get(`/${API_PATH}/${API_VERSION}/search`, async (req, res) => {
+    try {
+        const { pattern } = req.query;
+        const results = await Movie.find({ title: { $regex: pattern, $options: 'i' } }).limit().exec()
+        res.status(200).json(results)
+    } catch (error) {
+        res.status(500).json({ message: error.message }); // Handle errors
+    }
+})
+
 app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
     try {
         const { id } = req.params; // Get the custom ID from the URL parameter
