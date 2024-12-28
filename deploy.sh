@@ -1,5 +1,13 @@
 #!/bin/bash
 
+# Check if the current user is root
+if [ "$(id -u)" -eq 0 ]; then
+    echo "Verified"
+else
+    echo "Login as root user to continue"
+    exit 1
+fi
+
 # prerequisites check
 
 # Check for Terraform
