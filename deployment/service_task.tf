@@ -177,3 +177,11 @@ resource "aws_lb_listener" "frontend_http_listener_admin" {
     target_group_arn = aws_lb_target_group.frontend_admin_tg.arn
   }
 }
+
+output "moviematelb" {
+  value = aws_lb.frontend_alb.dns_name
+}
+
+output "moviemateadminlb" {
+  value = aws_lb.frontend_admin_alb.dns_name
+}

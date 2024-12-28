@@ -1,24 +1,24 @@
 variable "region" {
   description = "region where the resources gets deployed"
   type        = string
-  default     = ""
+  default     = "us-east-1"
 }
 
 variable "source_bucket" {
   description = "source bucket name"
   type        = string
-  default     = ""
+  default     = "src.bucket.moviemate"
 }
 
 variable "destination_bucket" {
   description = "destination bucket name"
   type        = string
-  default     = ""
+  default     = "dest.bucket.moviemate"
 }
 
 variable "azs" {
   description = "Availability zones for VPC"
   type        = list(string)
-  default     = [""]
+  default     = ["us-east-1a", "us-east-1b", "us-east-1c"]
 }
 

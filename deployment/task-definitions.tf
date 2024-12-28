@@ -299,8 +299,8 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_transcoder" {
   network_mode       = "awsvpc"
   execution_role_arn = aws_iam_role.ecs_task_execution_role.arn
   task_role_arn      = aws_iam_role.moviemate_s3_access.arn
-  cpu                = 256
-  memory             = 1024
+  cpu                = 4096
+  memory             = 8192
   runtime_platform {
     operating_system_family = "LINUX"
     cpu_architecture        = "X86_64"
