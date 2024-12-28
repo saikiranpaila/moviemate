@@ -20,10 +20,6 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-app.get('*', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
 app.get(`/${API_PATH}/${API_VERSION}/movies`, async (req, res) => {
     try {
         const page = req.query.page || 1;
@@ -68,6 +64,9 @@ app.get(`/${API_PATH}/${API_VERSION}/movies/:id`, async (req, res) => {
     }
 });
 
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public/index.html'));
+});
 
 // Start the server
 app.listen(port, () => {

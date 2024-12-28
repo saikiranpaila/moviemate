@@ -60,10 +60,6 @@ mongoose.connect(MONGO_URI)
   })
   .catch((error) => console.error('Error connecting to MongoDB:', error));
 
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
-
 app.post(`/${API_PATH}/${API_VERSION}/login`, async (req, res) => {
   const { username, password } = req.body;
   console.log(username, password)
@@ -264,6 +260,10 @@ app.post(`/${API_PATH}/${API_VERSION}/abort-upload`, authenticateJWT, async (req
     console.error(error);
     res.status(500).send({ message: "Error aborting upload" });
   }
+});
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
 // Start the server
