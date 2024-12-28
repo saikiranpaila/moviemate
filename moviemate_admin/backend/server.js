@@ -172,6 +172,7 @@ app.post(`/${API_PATH}/${API_VERSION}/movies/:id`, authenticateJWT, async (req, 
 
 // Route to generate pre-signed URLs
 app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, authenticateJWT, async (req, res) => {
+  req.body.fileName = req.body.fileName.replace(/ /g, '_');
   const { fileName, fileType, fileSize } = req.body;
 
   try {
@@ -215,6 +216,7 @@ app.post(`/${API_PATH}/${API_VERSION}/generate-presigned-urls`, authenticateJWT,
 
 // Route to complete the multipart upload
 app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, authenticateJWT, async (req, res) => {
+  req.body.fileName = req.body.fileName.replace(/ /g, '_')
   const { uploadId, fileName, parts } = req.body;
 
   try {
@@ -243,6 +245,7 @@ app.post(`/${API_PATH}/${API_VERSION}/complete-upload`, authenticateJWT, async (
 
 // Route to abort the multipart upload 
 app.post(`/${API_PATH}/${API_VERSION}/abort-upload`, authenticateJWT, async (req, res) => {
+  req.body.fileName = req.body.fileName.replace(/ /g, '_');
   const { uploadId, fileName } = req.body;
 
   try {

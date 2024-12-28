@@ -97,17 +97,17 @@ resource "aws_security_group" "moviemate_security_group" {
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "tcp" # Allow all TCP traffic from within the same security group
-    self        = true
+    from_port = 0
+    to_port   = 65535
+    protocol  = "tcp" # Allow all TCP traffic from within the same security group
+    self      = true
   }
 
   ingress {
-    from_port   = 0
-    to_port     = 65535
-    protocol    = "udp" # Allow all UDP traffic from within the same security group
-    self        = true
+    from_port = 0
+    to_port   = 65535
+    protocol  = "udp" # Allow all UDP traffic from within the same security group
+    self      = true
   }
 
   egress {

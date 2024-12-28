@@ -25,7 +25,11 @@
 
 <!-- Buttons for cancel and upload -->
 <div class="col m-1" style="display: flex; justify-content: flex-end;">
+    @if(isUploading) {
     <button class="btn btn-outline-secondary m-1" type="button" (click)="backHome()">Cancel</button>
+    } @else {
+    <button class="btn btn-outline-secondary m-1" type="button" (click)="backHome()">Back</button>
+    }
     <button class="btn btn-primary m-1" type="button" (click)="upload()"
         [disabled]="isUploading || !file">Upload</button>
 </div>

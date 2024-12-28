@@ -24,16 +24,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_client" {
           value = "27017"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/startup-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "startup-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.startup-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "startup-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
+        }
+      }
     },
     {
       name      = "moviemate-client-container"
@@ -53,22 +53,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_client" {
           protocol      = "tcp"
         }
       ]
-      dependsOn = [
-        {
-          containerName = "startup-container"
-          condition     = "SUCCESS"
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.moviemate-client-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "moviemate-client-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
         }
-      ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/moviemate-client-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "moviemate-client-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      }
     }
   ])
 }
@@ -99,16 +93,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_admin" {
           value = "27017"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/startup-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "startup-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.startup-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "startup-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
+        }
+      }
     },
     {
       name      = "moviemate-admin-container"
@@ -136,16 +130,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_admin" {
           protocol      = "tcp"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/moviemate-admin-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "moviemate-admin-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.moviemate-admin-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "moviemate-admin-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
+        }
+      }
       dependsOn = [
         {
           containerName = "startup-container"
@@ -168,15 +162,10 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_database" {
   }
   container_definitions = jsonencode([
     {
-      name      = "moviemate-database-container"
-      image     = "${aws_ecr_repository.moviemate_database_repository.repository_url}"
-      essential = true
-      environment = [
-        # {
-        #   name  = "MONGO_URI"
-        #   value = "mongodb://localhost:27017/moviemate_test"
-        # }
-      ]
+      name        = "moviemate-database-container"
+      image       = "${aws_ecr_repository.moviemate_database_repository.repository_url}"
+      essential   = true
+      environment = []
       portMappings = [
         {
           name          = "mongo-port"
@@ -185,16 +174,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_database" {
           protocol      = "tcp"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/moviemate-database-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "moviemate-database-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.database-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "moviemate-database-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
+        }
+      }
     }
   ])
 }
@@ -225,16 +214,16 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_poller" {
           value = "27017"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/startup-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "startup-container-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.startup-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "startup-container"
+          awslogs-create-group  = "true"
+          max-buffer-size       = "25m"
+        }
+      }
     },
     {
       name      = "moviemate-poller-container"
@@ -274,16 +263,15 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_poller" {
           value = "${aws_subnet.public_subnet_a.id}"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/startup-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "startup-container-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.poller-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "poller-container"
+          max-buffer-size       = "25m"
+        }
+      }
       dependsOn = [
         {
           containerName = "startup-container"
@@ -306,31 +294,6 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_transcoder" {
     cpu_architecture        = "X86_64"
   }
   container_definitions = jsonencode([
-    # {
-    #   name      = "startup-container"
-    #   image     = "${aws_ecr_repository.moviemate_startup_repository.repository_url}"
-    #   essential = false
-    #   environment = [
-    #     {
-    #       name  = "MONGO_HOST"
-    #       value = "mongo.local"
-    #     },
-    #     {
-    #       name  = "MONGO_PORT"
-    #       value = "27017"
-    #     }
-    #   ]
-    #   # logConfiguration = {
-    #   #   logDriver = "awslogs"
-    #   #   options = {
-    #   #     awslogs-group         = "/ecs/startup-container-logs"
-    #   #     awslogs-region        = "${var.region}"
-    #   #     awslogs-stream-prefix = "startup-container-container"
-    #   #     awslogs-create-group  = "true"
-    #   #     max-buffer-size       = "25m"
-    #   #   }
-    #   # }
-    # },
     {
       name      = "${local.transcoder_container_name}"
       image     = "${aws_ecr_repository.moviemate_transcoder_repository.repository_url}"
@@ -357,18 +320,48 @@ resource "aws_ecs_task_definition" "task_definition_moviemate_transcoder" {
           value = "mongodb://mongo.local:27017/moviemate"
         }
       ]
-      # logConfiguration = {
-      #   logDriver = "awslogs"
-      #   options = {
-      #     awslogs-group         = "/ecs/transcoder-container-logs"
-      #     awslogs-region        = "${var.region}"
-      #     awslogs-stream-prefix = "transcoder-container-container"
-      #     awslogs-create-group  = "true"
-      #     max-buffer-size       = "25m"
-      #   }
-      # }
+      logConfiguration = {
+        logDriver = "awslogs"
+        options = {
+          awslogs-group         = "${aws_cloudwatch_log_group.transcoder-container-log-group.name}"
+          awslogs-region        = "${var.region}"
+          awslogs-stream-prefix = "transcoder-container"
+          max-buffer-size       = "25m"
+        }
+      }
     }
   ])
+}
+
+# Log groups
+resource "aws_cloudwatch_log_group" "startup-container-log-group" {
+  name              = "/ecs/startup-container-logs"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "moviemate-client-container-log-group" {
+  name              = "/ecs/moviemate-client-container-logs"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "moviemate-admin-container-log-group" {
+  name              = "/ecs/moviemate-admin-container-logs"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "database-container-log-group" {
+  name              = "/ecs/database-container-logs"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "poller-container-log-group" {
+  name              = "/ecs/poller-container-logs"
+  retention_in_days = 7
+}
+
+resource "aws_cloudwatch_log_group" "transcoder-container-log-group" {
+  name              = "/ecs/transcoder-container-logs"
+  retention_in_days = 7
 }
 
 locals {
