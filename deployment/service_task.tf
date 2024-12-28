@@ -29,11 +29,12 @@ resource "aws_ecs_service" "moviemate_database_service" {
 
 
 resource "aws_ecs_service" "moviemate_admin_service" {
-  name            = "moviemate-admin-service"
-  cluster         = aws_ecs_cluster.moviemate_cluster.id
-  task_definition = aws_ecs_task_definition.task_definition_moviemate_admin.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name                  = "moviemate-admin-service"
+  cluster               = aws_ecs_cluster.moviemate_cluster.id
+  task_definition       = aws_ecs_task_definition.task_definition_moviemate_admin.arn
+  desired_count         = 1
+  launch_type           = "FARGATE"
+  wait_for_steady_state = true
 
   network_configuration {
     subnets          = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
@@ -55,11 +56,12 @@ resource "aws_ecs_service" "moviemate_admin_service" {
 }
 
 resource "aws_ecs_service" "moviemate_client_service" {
-  name            = "moviemate-client-service"
-  cluster         = aws_ecs_cluster.moviemate_cluster.id
-  task_definition = aws_ecs_task_definition.task_definition_moviemate_client.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name                  = "moviemate-client-service"
+  cluster               = aws_ecs_cluster.moviemate_cluster.id
+  task_definition       = aws_ecs_task_definition.task_definition_moviemate_client.arn
+  desired_count         = 1
+  launch_type           = "FARGATE"
+  wait_for_steady_state = true
 
   network_configuration {
     subnets          = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
@@ -81,11 +83,12 @@ resource "aws_ecs_service" "moviemate_client_service" {
 }
 
 resource "aws_ecs_service" "moviemate_poller_service" {
-  name            = "moviemate-poller-service"
-  cluster         = aws_ecs_cluster.moviemate_cluster.id
-  task_definition = aws_ecs_task_definition.task_definition_moviemate_poller.arn
-  desired_count   = 1
-  launch_type     = "FARGATE"
+  name                  = "moviemate-poller-service"
+  cluster               = aws_ecs_cluster.moviemate_cluster.id
+  task_definition       = aws_ecs_task_definition.task_definition_moviemate_poller.arn
+  desired_count         = 1
+  launch_type           = "FARGATE"
+  wait_for_steady_state = true
 
   network_configuration {
     subnets          = [aws_subnet.public_subnet_a.id, aws_subnet.public_subnet_b.id]
