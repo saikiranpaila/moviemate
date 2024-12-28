@@ -26,6 +26,25 @@ else
     fi
 fi
 
+# Check if AWS CLI is installed
+if command -v aws --version &> /dev/null; then
+    echo "AWS CLI is installed."
+else
+    echo "AWS CLI is NOT installed."
+
+    # Download and install AWS CLI v2 (recommended version)
+    curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+    unzip awscliv2.zip
+    sudo ./aws/install
+
+    # Check if AWS CLI is working after installation
+    if command -v aws --version &> /dev/null; then
+        echo "AWS CLI successfully installed."
+    else
+        echo "AWS CLI installation failed."
+    fi
+fi
+
 # Check for Docker
 if command -v docker --version &> /dev/null; then
     echo "Docker is installed."
