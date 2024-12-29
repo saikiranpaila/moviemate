@@ -14,7 +14,7 @@ logger = logging.getLogger()
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
 SOURCE_BUCKET = os.getenv("SOURCE_BUCKET", "src.22122024.bucket")
 TARGET_BUCKET = os.getenv("TARGET_BUCKET", "dest.22122024.bucket")
-SOURCE_KEY = os.getenv("SOURCE_KEY", "f3a02cef4b63dc17b99ce4a01b5098fe/input.mp4")
+SOURCE_KEY = os.getenv("SOURCE_KEY", "a0043adcc715efdf34a2b0d42d6099c3/The_Dark_Knight.mp4")
 # MONGO_URI = os.getenv("MONGO_URI", "mongodb://localhost:27017/moviemate_test")
 MOVIE_ID = SOURCE_KEY.rsplit('/')[0]
 
@@ -110,7 +110,9 @@ def create_hls_with_progress(input_file, output_dir, resolutions):
             "ffmpeg",
             "-i", input_file,
             "-vf", f"scale=w={res['width']}:h={res['height']}",
+            "-c:v", "libx264",
             "-b:v", res["bitrate"],
+            "-c:a", "aac",
             "-hls_time", "10",
             "-hls_list_size", "0",
             "-hls_segment_filename", os.path.join(output_dir, f"{res['name']}_%03d.ts"),
