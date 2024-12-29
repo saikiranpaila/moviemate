@@ -8,7 +8,8 @@ else
     exit 1
 fi
 
-# prerequisites check
+# prerequisites check"
+echo "Running prerequisites check"
 
 # Check for Terraform
 if command -v terraform --version &> /dev/null; then
