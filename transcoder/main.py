@@ -2,8 +2,13 @@ import boto3
 import os
 import subprocess
 import re
+import logging
 # from pymongo import MongoClient
 from enum import Enum
+
+# Set up logging configuration
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
 
 # Environment variables
 AWS_REGION = os.getenv("AWS_REGION", "us-east-1")
@@ -60,16 +65,23 @@ RESOLUTIONS = [
 ]
 
 def download_file(bucket_name, key, local_path):
-    msg=f"downloading movie from bucket"
-    print(f'Downloading {key} from {bucket_name}')
-    # update_status(msg,STATUS_TYPE.INFO)
-    s3.download_file(bucket_name, key, local_path)
-    msg=f"download complete"
-    # update_status(msg,STATUS_TYPE.INFO)
+    logger.info(f'Downloading {key} from {bucket_name}')
+    # update_status(msg, STATUS_TYPE.INFO)
+    try:
+        s3.download_file(bucket_name, key, local_path)
+        logger.info("Download complete")
+    except Exception as e:
+        logger.error(f"Error downloading file: {e}")
+        raise
 
 def upload_file(bucket_name, local_path, key):
-    print(f"Uploading {local_path} to {bucket_name}/{key}")
-    s3.upload_file(local_path, bucket_name, key)
+    logger.info(f"Uploading {local_path} to {bucket_name}/{key}")
+    try:
+        s3.upload_file(local_path, bucket_name, key)
+        logger.info(f"Upload successful: {local_path} to {bucket_name}/{key}")
+    except Exception as e:
+        logger.error(f"Error uploading file: {e}")
+        raise
 
 def parse_time_to_seconds(time_str):
     """Convert HH:MM:SS.ms to seconds."""
@@ -79,8 +91,12 @@ def parse_time_to_seconds(time_str):
 def get_video_duration(input_file):
     """Get the total duration of the video file using ffprobe."""
     duration_command = ["ffprobe", "-i", input_file, "-show_entries", "format=duration", "-v", "quiet", "-of", "csv=p=0"]
-    duration = float(subprocess.check_output(duration_command).strip())
-    return duration
+    try:
+        duration = float(subprocess.check_output(duration_command).strip())
+        return duration
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Error getting video duration: {e}")
+        raise
 
 def create_hls_with_progress(input_file, output_dir, resolutions):
     """Create HLS streams and display real-time progress."""
@@ -101,7 +117,7 @@ def create_hls_with_progress(input_file, output_dir, resolutions):
             "-f", "hls",
             variant_path
         ]
-        print(f"Running FFmpeg for {res['name']}: {' '.join(command)}")
+        logger.info(f"Running FFmpeg for {res['name']}: {' '.join(command)}")
 
         duration = get_video_duration(input_file)
         process = subprocess.Popen(command, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, universal_newlines=True)
@@ -112,8 +128,7 @@ def create_hls_with_progress(input_file, output_dir, resolutions):
             if match:
                 current_time = parse_time_to_seconds(match.group(1))
                 percentage = (current_time / duration) * 100
-                msg=f"Processing {percentage:.2f}% ({res['name']})"
-                # update_status(msg,STATUS_TYPE.INFO)
+                logger.info(f"Processing {percentage:.2f}% ({res['name']})")
 
         process.wait()
         variant_playlists.append({
@@ -131,18 +146,15 @@ def create_hls_with_progress(input_file, output_dir, resolutions):
         for variant in variant_playlists:
             master.write(f"#EXT-X-STREAM-INF:BANDWIDTH={int(variant['bitrate'].replace('k', '')) * 1000},RESOLUTION={variant['width']}x{variant['height']}\n")
             master.write(f"{variant['path']}\n")
-    print(f"Master playlist created at {master_playlist_path}")
+    logger.info(f"Master playlist created at {master_playlist_path}")
 
 def process_hls(input_file, hls_output_dir):
     """Wrapper for creating HLS streams with a master playlist and progress tracking."""
-    msg="Started HLS Processing"
-    # update_status(msg, STATUS_TYPE.INFO)
+    logger.info("Started HLS Processing")
     try:
         create_hls_with_progress(input_file, hls_output_dir, RESOLUTIONS)
     except Exception as e:
-        print(f"Error processing HLS: {e}")
-        msg="Error occured while HLS processing"
-        # update_status(msg,STATUS_TYPE.DANGER)
+        logger.error(f"Error processing HLS: {e}")
 
 def main():
     source_key = SOURCE_KEY
@@ -161,27 +173,25 @@ def main():
         # Step 3: Upload all files to S3
         for root, _, files in os.walk(hls_output_dir):
             for i, file in enumerate(files):
-                i+=1
+                i += 1
                 local_path = os.path.join(root, file)
                 s3_key = f"{movie_id}/{file}"
-                # update_status(f"Uploading parts {i}/{len(files)}",STATUS_TYPE.INFO)
+                logger.info(f"Uploading part {i}/{len(files)}")
                 upload_file(TARGET_BUCKET, local_path, s3_key)
 
-        # update_status("Uploaded",STATUS_TYPE.INFO)
-        
-        print("Adaptive bitrate HLS processing completed!")
+        logger.info("Adaptive bitrate HLS processing completed!")
 
         # update_movie(TARGET_BUCKET+f"/{MOVIE_ID}"+f"/master.m3u8")
 
     except Exception as e:
-        print(f"Error: {e}")
+        logger.error(f"Error: {e}")
 
 if __name__ == "__main__":
     try:
         main()
-    except:
-        print("Something went wrong")
+    except Exception as e:
+        logger.error(f"Something went wrong: {e}")
         # update_status("Something went wrong", STATUS_TYPE.DANGER)
     else:
-        print("Movie Added")
+        logger.info("Movie Added")
         # update_status("Movie Added", STATUS_TYPE.SAFE)
