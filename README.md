@@ -18,7 +18,7 @@ Moviemate is an automated video transcoding platform that uses FFmpeg for video 
 - **Infrastructure as Code**: Terraform
 
 ## Architecture Overview
-![Architecture image](docs/images/moviemate-arch.png)
+![Architecture Image](docs/images/moviemate-arch.png)
 1. **S3 Buckets**: There are two S3 buckets:
    - **Source Bucket**: Videos are uploaded here by users.
    - **Destination Bucket**: Transcoded videos are stored here.
